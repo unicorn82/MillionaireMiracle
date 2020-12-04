@@ -1,0 +1,69 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: unicorn
+      changes:
+        - createTable:
+            tableName: nasdaq_stock
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: ticker
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: company
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: marketCap
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: marketCapGroup
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: sectorName
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: sector
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+
+
+
+#- changeSet:
+#    id: 1
+#    author: nvoxland
+#    changes:
+#    - createTable:
+#        tableName: employee_yaml
+#        columns:
+#        - column:
+#            name: id
+#            type: int
+#            constraints:
+#              primaryKey: true
+#              nullable: false
+#        - column:
+#            name: name
+#            type: varchar(255)
+#            constraints:
+#              nullable: false
+#        - column:
+#            name: age
+#            type: int

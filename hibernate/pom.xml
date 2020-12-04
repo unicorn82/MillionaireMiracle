@@ -9,27 +9,19 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.millionaire.compound</groupId>
-	<artifactId>miracle</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-    <packaging>pom</packaging>
-	<name>miracle</name>
-	<description>Demo project for Spring Boot</description>
+	<artifactId>com.millionaire.compound.hibernate</artifactId>
 
-	<properties>
-		<java.version>11</java.version>
-	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter</artifactId>
+		</dependency>
 
-    <modules>
-        <module>hibernate</module>
-        <module>rest</module>
-        <module>service</module>
-        <module>application</module>
-
-    </modules>
-
-
-
-
-
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
 
 </project>
