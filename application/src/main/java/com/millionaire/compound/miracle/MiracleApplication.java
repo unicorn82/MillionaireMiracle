@@ -1,6 +1,7 @@
 package com.millionaire.compound.miracle;
 
 
+import com.millionaire.compound.hibernate.dao.impl.ExtendedRepositoryImpl;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -15,7 +16,7 @@ import javax.sql.DataSource;
 
 @ComponentScan(basePackages = "com.millionaire.compound")
 @EntityScan("com.millionaire.compound.hibernate.entity")
-@EnableJpaRepositories("com.millionaire.compound.hibernate")
+@EnableJpaRepositories(basePackages = "com.millionaire.compound.hibernate.dao", repositoryBaseClass = ExtendedRepositoryImpl.class)
 @SpringBootApplication(scanBasePackages = "com.millionaire.compound")
 public class MiracleApplication {
 

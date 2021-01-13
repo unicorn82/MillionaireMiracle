@@ -14,12 +14,12 @@ databaseChangeLog:
                 primaryKey: true
                 nullable: false
           - column:
-              name: category
+              name: ticker
               type: varchar(255)
               constraints:
                 nullable: false
           - column:
-              name: ticker
+              name: category
               type: varchar(255)
               constraints:
                 nullable: false
@@ -29,28 +29,70 @@ databaseChangeLog:
               constraints:
                 nullable: false
           - column:
+              name: company_name
+              type: varchar(255)
+              constraints:
+                nullable: false
+          - column:
+              name: avg3m_volumn
+              type: currency
+              constraints:
+                nullable: false
+          - column:
+              name: year_range
+              type: decimal
+              constraints:
+                nullable: false
+          - column:
+              name: w52_range
+              type: varchar(255)
+              constraints:
+                nullable: false
+          - column:
               name: market_cap
-              type: varchar(255)
+              type: currency
               constraints:
                 nullable: false
           - column:
-              name: market_cap_group
-              type: varchar(255)
+              name: cir_market_cap
+              type: currency
               constraints:
                 nullable: false
           - column:
-              name: sector_name
-              type: varchar(255)
+              name: pe
+              type: decimal
               constraints:
                 nullable: false
           - column:
-              name: sector
+              name: earning
+              type: currency
+              constraints:
+                nullable: false
+          - column:
+              name: eps
+              type: decimal
+              constraints:
+                nullable: false
+          - column:
+              name: forward_dividend
+              type: decimal
+              constraints:
+                nullable: false
+          - column:
+              name: yield
+              type: decimal
+              constraints:
+                nullable: false
+          - column:
+              name: beta
+              type: decimal
+              constraints:
+                nullable: false
+          - column:
+              name: next_report_date
               type: varchar(255)
               constraints:
                 nullable: false
-
-
-
   - changeSet:
       id:  createSeq-stock
       author:  unicorn
@@ -63,8 +105,24 @@ databaseChangeLog:
           sequenceName:  miracle_stock_seq
           startValue:  1
 
+  - changeSet:
+      id:  createIndex-stock
+      author:  unicorn
+      changes:
+      - createIndex:
+          catalogName:  ticker
+          clustered:  true
+          columns:
+          - column:
+              descending:  true
+              name:  ticker
+          indexName:  idx_stock_ticker
+          schemaName:  public
+          tableName:  miracle_stock
+          unique:  true
+
 #  - changeSet:
-#      id: addAutoIncrement-id
+#      id: addIncr-Stock-id
 #      author: unicorn
 #      changes:
 #      - addAutoIncrement:
@@ -76,7 +134,7 @@ databaseChangeLog:
 #          generationType: ALWAYS
 #          incrementBy: 1
 #          schemaName: public
-#          startWith: 1
+#          startWith: 100
 
 
 

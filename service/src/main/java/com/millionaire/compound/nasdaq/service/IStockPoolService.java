@@ -1,15 +1,16 @@
 package com.millionaire.compound.nasdaq.service;
 
 import com.millionaire.compound.common.models.NasdaqStockModel;
+import com.millionaire.compound.common.models.StockModel;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 
-public interface INasdaqService {
+public interface IStockPoolService {
 
-    void saveNasdaqItem(NasdaqStockModel nasdaqModel);
+    void saveStockItem(StockModel stockModel);
 
-    List<NasdaqStockModel> listNasdaqItems();
+    List<StockModel> listAllStocks();
 
 }
