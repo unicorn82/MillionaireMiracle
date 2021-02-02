@@ -1,9 +1,8 @@
 package com.millionaire.compound.rest.resource;
 
 
-import com.millionaire.compound.common.models.NasdaqStockModel;
 import com.millionaire.compound.common.models.StockModel;
-import com.millionaire.compound.nasdaq.service.IStockPoolService;
+import com.millionaire.compound.stock.service.IStockPoolService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

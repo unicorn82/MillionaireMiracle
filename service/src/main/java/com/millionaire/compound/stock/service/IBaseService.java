@@ -1,4 +1,4 @@
-package com.millionaire.compound.nasdaq.service;
+package com.millionaire.compound.stock.service;
 
 import java.io.Serializable;
 import java.util.List;

@@ -1,162 +1,251 @@
 databaseChangeLog:
-  - changeSet:
-      id: createTab-stock
-      author: unicorn
-      changes:
-      - createTable:
-          tableName: miracle_stock
-          columns:
-          - column:
-              name: id
-              type: int
-              autoIncrement: true
-              constraints:
-                primaryKey: true
-                nullable: false
-          - column:
-              name: ticker
-              type: varchar(255)
-              constraints:
-                nullable: false
-          - column:
-              name: category
-              type: varchar(255)
-              constraints:
-                nullable: false
-          - column:
-              name: company
-              type: varchar(255)
-              constraints:
-                nullable: false
-          - column:
-              name: company_name
-              type: varchar(255)
-              constraints:
-                nullable: false
-          - column:
-              name: avg3m_volumn
-              type: currency
-              constraints:
-                nullable: false
-          - column:
-              name: year_range
-              type: decimal
-              constraints:
-                nullable: false
-          - column:
-              name: w52_range
-              type: varchar(255)
-              constraints:
-                nullable: false
-          - column:
-              name: market_cap
-              type: currency
-              constraints:
-                nullable: false
-          - column:
-              name: cir_market_cap
-              type: currency
-              constraints:
-                nullable: false
-          - column:
-              name: pe
-              type: decimal
-              constraints:
-                nullable: false
-          - column:
-              name: earning
-              type: currency
-              constraints:
-                nullable: false
-          - column:
-              name: eps
-              type: decimal
-              constraints:
-                nullable: false
-          - column:
-              name: forward_dividend
-              type: decimal
-              constraints:
-                nullable: false
-          - column:
-              name: yield
-              type: decimal
-              constraints:
-                nullable: false
-          - column:
-              name: beta
-              type: decimal
-              constraints:
-                nullable: false
-          - column:
-              name: next_report_date
-              type: varchar(255)
-              constraints:
-                nullable: false
-  - changeSet:
-      id:  createSeq-stock
-      author:  unicorn
-      changes:
-      - createSequence:
-          cycle:  true
-          dataType:  int
-          incrementBy:  1
-          schemaName:  public
-          sequenceName:  miracle_stock_seq
-          startValue:  1
+- changeSet:
+    id: createTab-stock
+    author: unicorn
+    changes:
+    - createTable:
+        tableName: miracle_stock
+        columns:
+        - column:
+            name: id
+            type: int
+            autoIncrement: true
+            constraints:
+              primaryKey: true
+              nullable: false
+        - column:
+            name: ticker
+            type: varchar(255)
+            constraints:
+              nullable: false
+        - column:
+            name: category
+            type: varchar(255)
+            constraints:
+              nullable: false
+        - column:
+            name: company
+            type: varchar(255)
+            constraints:
+              nullable: false
+        - column:
+            name: company_name
+            type: varchar(255)
+            constraints:
+              nullable: false
+        - column:
+            name: avg3m_volumn
+            type: currency
+            constraints:
+              nullable: false
+        - column:
+            name: year_range
+            type: decimal
+            constraints:
+              nullable: false
+        - column:
+            name: w52_range
+            type: varchar(255)
+            constraints:
+              nullable: false
+        - column:
+            name: market_cap
+            type: currency
+            constraints:
+              nullable: false
+        - column:
+            name: cir_market_cap
+            type: currency
+            constraints:
+              nullable: false
+        - column:
+            name: pe
+            type: decimal
+            constraints:
+              nullable: false
+        - column:
+            name: earning
+            type: currency
+            constraints:
+              nullable: false
+        - column:
+            name: eps
+            type: decimal
+            constraints:
+              nullable: false
+        - column:
+            name: forward_dividend
+            type: decimal
+            constraints:
+              nullable: false
+        - column:
+            name: yield
+            type: decimal
+            constraints:
+              nullable: false
+        - column:
+            name: beta
+            type: decimal
+            constraints:
+              nullable: false
+        - column:
+            name: next_report_date
+            type: varchar(255)
+            constraints:
+              nullable: false
+- changeSet:
+    id:  createSeq-stock
+    author:  unicorn
+    changes:
+    - createSequence:
+        cycle:  true
+        dataType:  int
+        incrementBy:  1
+        schemaName:  public
+        sequenceName:  miracle_stock_seq
+        startValue:  1
 
-  - changeSet:
-      id:  createIndex-stock
-      author:  unicorn
-      changes:
-      - createIndex:
-          catalogName:  ticker
-          clustered:  true
-          columns:
-          - column:
-              descending:  true
-              name:  ticker
-          indexName:  idx_stock_ticker
-          schemaName:  public
-          tableName:  miracle_stock
-          unique:  true
+- changeSet:
+    id:  createIndex-stock
+    author:  unicorn
+    changes:
+    - createIndex:
+        catalogName:  ticker
+        clustered:  true
+        columns:
+        - column:
+            descending:  true
+            name:  ticker
+        indexName:  idx_stock_ticker
+        schemaName:  public
+        tableName:  miracle_stock
+        unique:  true
 
-#  - changeSet:
-#      id: addIncr-Stock-id
-#      author: unicorn
-#      changes:
-#      - addAutoIncrement:
-#          tableName: miracle_stock
-#          catalogName: id
-#          columnDataType: int
-#          columnName: id
-#          defaultOnNull: false
-#          generationType: ALWAYS
-#          incrementBy: 1
-#          schemaName: public
-#          startWith: 100
+- changeSet:
+    id: createTab-stock-price
+    author: unicorn
+    changes:
+    - createTable:
+        tableName: stock_daily_price
+        columns:
+        - column:
+            name: id
+            type: int
+            autoIncrement: true
+            constraints:
+              primaryKey: true
+              nullable: false
+        - column:
+            name: ticker
+            type: varchar(255)
+            constraints:
+              nullable: false
+        - column:
+            name: date
+            type: varchar(255)
+            constraints:
+              nullable: false
+        - column:
+            name: open
+            type: decimal
+            constraints:
+              nullable: false
+        - column:
+            name: close
+            type: decimal
+            constraints:
+              nullable: false
+        - column:
+            name: high
+            type: decimal
+            constraints:
+              nullable: false
+        - column:
+            name: low
+            type: decimal
+            constraints:
+              nullable: false
+        - column:
+            name: range
+            type: decimal
+            constraints:
+              nullable: false
+        - column:
+            name: volume
+            type: int
+            constraints:
+              nullable: false
+        - column:
+            name: avg5_volume
+            type: int
+            constraints:
+              nullable: false
+        - column:
+            name: avg10_volume
+            type: int
+            constraints:
+              nullable: false
+        - column:
+            name: avg20_volume
+            type: int
+            constraints:
+              nullable: false
+        - column:
+            name: avg30_volume
+            type: int
+            constraints:
+              nullable: false
+        - column:
+            name: avg60_volume
+            type: int
+            constraints:
+              nullable: false
+        - column:
+            name: ma5
+            type: decimal
+            constraints:
+              nullable: false
+        - column:
+            name: ma10
+            type: decimal
+            constraints:
+              nullable: false
+        - column:
+            name: ma20
+            type: decimal
+            constraints:
+              nullable: false
+        - column:
+            name: ma30
+            type: decimal
+            constraints:
+              nullable: false
+        - column:
+            name: ma60
+            type: decimal
+            constraints:
+              nullable: false
+        - column:
+            name: pe
+            type: decimal
+            constraints:
+              nullable: false
 
+- changeSet:
+    id:  createIndex-stock-daily-price
+    author:  unicorn
+    changes:
+    - createIndex:
+        clustered:  true
+        columns:
+        - column:
+            descending:  true
+            name:  ticker
+        - column:
+            descending:  true
+            name:  date
+        indexName:  idx_stock_daily_price
+        schemaName:  public
+        tableName:  stock_daily_price
+        unique:  true
 
-
-
-#- changeSet:
-#    id: 1
-#    author: nvoxland
-#    changes:
-#    - createTable:
-#        tableName: employee_yaml
-#        columns:
-#        - column:
-#            name: id
-#            type: int
-#            constraints:
-#              primaryKey: true
-#              nullable: false
-#        - column:
-#            name: name
-#            type: varchar(255)
-#            constraints:
-#              nullable: false
-#        - column:
-#            name: age
-#            type: int

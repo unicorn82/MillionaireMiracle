@@ -1,12 +1,9 @@
-package com.millionaire.compound.nasdaq.service.impl;
+package com.millionaire.compound.stock.service.impl;
 
-import com.millionaire.compound.nasdaq.service.IBaseService;
+import com.millionaire.compound.stock.service.IBaseService;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.io.Serializable;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
 public abstract class BaseServiceImpl<E extends Serializable, PK extends Serializable> implements IBaseService<E, PK> {
 

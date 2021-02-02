@@ -2,6 +2,7 @@ package com.millionaire.compound.rest.config;
 
 
 import com.millionaire.compound.rest.resource.StockPoolResource;
+import com.millionaire.compound.rest.resource.StockPriceResource;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.springframework.stereotype.Component;
 
@@ -14,6 +15,7 @@ public class RestConfig extends ResourceConfig {
     public RestConfig() {
         System.out.println("rest config init");
         super.register(StockPoolResource.class);
+        super.register(StockPriceResource.class);
 
     }
 

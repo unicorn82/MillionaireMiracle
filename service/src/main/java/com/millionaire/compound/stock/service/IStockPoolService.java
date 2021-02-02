@@ -1,4 +1,4 @@
-package com.millionaire.compound.nasdaq.service;
+package com.millionaire.compound.stock.service;
 
 import com.millionaire.compound.common.models.NasdaqStockModel;
 import com.millionaire.compound.common.models.StockModel;

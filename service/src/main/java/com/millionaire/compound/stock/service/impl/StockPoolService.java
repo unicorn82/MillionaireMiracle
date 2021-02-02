@@ -1,11 +1,10 @@
-package com.millionaire.compound.nasdaq.service.impl;
+package com.millionaire.compound.stock.service.impl;
 
-import com.millionaire.compound.common.models.NasdaqStockModel;
 import com.millionaire.compound.common.models.StockModel;
 import com.millionaire.compound.hibernate.dao.MiracleStockRepository;
 import com.millionaire.compound.hibernate.entity.basic.MiracleStock;
 import com.millionaire.compound.hibernate.utils.MiracleStockUtil;
-import com.millionaire.compound.nasdaq.service.IStockPoolService;
+import com.millionaire.compound.stock.service.IStockPoolService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
