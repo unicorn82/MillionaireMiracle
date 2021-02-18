@@ -24,10 +24,12 @@ public class StockPriceService implements IStockPriceService {
         List<StockPriceModel> reverseStockPriceModels = new ArrayList<>();
         String ticker = stockPriceModels.get(0).getTicker();
 
-        if (stockDailyPriceRepository.getStockDailyPricesByTicker(ticker).size()>0){
-            System.out.println(ticker + " has been found");
-            return;
-        }
+
+
+//        if (stockDailyPriceRepository.getStockDailyPricesByTicker(ticker).size()>0){
+//            System.out.println(ticker + " has been found");
+//            return;
+//        }
 
         for (int i=stockPriceModels.size()-1;i>=0;i--){
             reverseStockPriceModels.add(stockPriceModels.get(i));
@@ -35,15 +37,21 @@ public class StockPriceService implements IStockPriceService {
 
         }
         for (int i=0;i<reverseStockPriceModels.size();i++){
-            System.out.println(reverseStockPriceModels.get(i).getDate());
+            String date = reverseStockPriceModels.get(i).getDate();
+
             StockDailyPrice dailyPrice = StockPriceUtil.convertStockDailyPrice2Enity(reverseStockPriceModels, i);
+
+//            if(stockDailyPriceRepository.getStockDailyPricesByTickerAndDate(ticker,date).size()>0){
+//                System.out.println(ticker+" "+date+" has been found");
+//                continue;
+//            }
             System.out.println(dailyPrice);
             if(stockDailyPriceRepository.getStockDailyPricesByTickerAndDate(dailyPrice.getTicker(),dailyPrice.getDate()).size() == 0){
                 stockDailyPriceRepository.save(dailyPrice);
-                System.out.println("save daily price");
+                System.out.println(ticker+" "+date+" save daily price");
 
             }else{
-                System.out.println("find duplicate "+dailyPrice.getDate());
+                System.out.println(ticker+" "+date+" has been found");
             }
 
         }

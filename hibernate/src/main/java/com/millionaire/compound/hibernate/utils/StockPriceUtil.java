@@ -3,10 +3,22 @@ package com.millionaire.compound.hibernate.utils;
 import com.millionaire.compound.common.models.StockPriceModel;
 import com.millionaire.compound.hibernate.entity.basic.StockDailyPrice;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.util.List;
 
+
+@FunctionalInterface
+interface StockPriceAttribute{
+    double getPriceAttribute(StockPriceModel stockPriceModel);
+
+}
+
 public class StockPriceUtil {
+
+    private static int[] _MADAYS = new int[]{5,10,20,30,60};
+
     static StockDailyPrice convertStockDailyPrice2Enity(StockPriceModel stockPriceModel){
         StockDailyPrice stockDailyPrice = new StockDailyPrice();
         stockDailyPrice.setTicker(stockPriceModel.getTicker());
@@ -23,45 +35,54 @@ public class StockPriceUtil {
 
     public static StockDailyPrice convertStockDailyPrice2Enity(List<StockPriceModel> stockPriceModelList, int index){
         StockDailyPrice stockDailyPrice = convertStockDailyPrice2Enity(stockPriceModelList.get(index));
-        stockDailyPrice.setMa5(BigDecimal.valueOf(setMAPrice(stockPriceModelList, index, 5)));
-        stockDailyPrice.setMa10(BigDecimal.valueOf(setMAPrice(stockPriceModelList, index, 10)));
-        stockDailyPrice.setMa20(BigDecimal.valueOf(setMAPrice(stockPriceModelList, index, 20)));
-        stockDailyPrice.setMa30(BigDecimal.valueOf(setMAPrice(stockPriceModelList, index, 30)));
-        stockDailyPrice.setMa60(BigDecimal.valueOf(setMAPrice(stockPriceModelList, index, 60)));
-        stockDailyPrice.setAvg5Volume(setAvgVolume(stockPriceModelList, index, 5));
-        stockDailyPrice.setAvg10Volume(setAvgVolume(stockPriceModelList, index, 10));
-        stockDailyPrice.setAvg20Volume(setAvgVolume(stockPriceModelList, index, 20));
-        stockDailyPrice.setAvg30Volume(setAvgVolume(stockPriceModelList, index, 30));
-        stockDailyPrice.setAvg60Volume(setAvgVolume(stockPriceModelList, index, 60));
+
+        for (int day: _MADAYS) {
+            try {
+                invokeStockMaMethod(stockPriceModelList, index, stockDailyPrice, day);
+                invokeStockVolumeMethod(stockPriceModelList, index, stockDailyPrice, day);
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+
+        }
+
         stockDailyPrice.setPe(BigDecimal.valueOf(0));
 
         return stockDailyPrice;
 
     }
 
+    private static void invokeStockMaMethod(List<StockPriceModel> stockPriceModelList, int index, StockDailyPrice stockDailyPrice, int day) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        Class clazz = stockDailyPrice.getClass();
+        Method setMaMethod = clazz.getDeclaredMethod("setMa"+day, BigDecimal.class);
+        setMaMethod.invoke(stockDailyPrice, BigDecimal.valueOf(setMAAttribute(stockPriceModelList, index, day, (StockPriceModel stockPriceModel)->{
+            return Double.valueOf(stockPriceModel.getClose());
+        })));
+    }
+
+    private static void invokeStockVolumeMethod(List<StockPriceModel> stockPriceModelList, int index, StockDailyPrice stockDailyPrice, int day) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        Class clazz = stockDailyPrice.getClass();
+        Method setVolumeMethod = clazz.getDeclaredMethod("setAvg"+day+"Volume", int.class);
+        setVolumeMethod.invoke(stockDailyPrice, (int)setMAAttribute(stockPriceModelList, index, day, (StockPriceModel stockPriceModel)->{
+            return stockPriceModel.getVolume();
+        }));
+    }
 
 
-    private static double setMAPrice(List<StockPriceModel> stockPriceModelList, int index, int days){
+    private static double setMAAttribute(List<StockPriceModel> stockPriceModelList, int index, int days, StockPriceAttribute priceAttribute){
         if(index < days-1){
-            return 0.0;
+            return priceAttribute.getPriceAttribute(stockPriceModelList.get(index));
         }
         double sum = 0.0;
         for(int i=0;i<days;i++){
-            sum += stockPriceModelList.get(index-i).getClose();
+            sum += priceAttribute.getPriceAttribute(stockPriceModelList.get(index-i));
         }
-        return (double) Math.round(sum/days * 100) / 100;
-    }
 
-    private static int setAvgVolume(List<StockPriceModel> stockPriceModelList, int index, int days){
-        if(index < days-1){
-            return 0;
-        }
-        int sum = 0;
-        for(int i=0;i<days;i++){
-            sum += stockPriceModelList.get(index-i).getVolume();
-        }
-        return Math.round(sum/days);
+        return (double) Math.round((sum/(double)days) * 10000) / 10000;
     }
-
 
 }
