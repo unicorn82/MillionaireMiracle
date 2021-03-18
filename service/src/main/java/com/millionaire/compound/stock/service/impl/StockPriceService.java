@@ -1,14 +1,19 @@
 package com.millionaire.compound.stock.service.impl;
 
+import com.millionaire.compound.common.models.StockDailyPriceCandidateModel;
+import com.millionaire.compound.common.models.comparator.StockDailyPriceComparator;
 import com.millionaire.compound.common.models.StockPriceModel;
+import com.millionaire.compound.common.models.utils.DateUtil;
 import com.millionaire.compound.hibernate.dao.StockDailyPriceRepository;
 import com.millionaire.compound.hibernate.entity.basic.StockDailyPrice;
+import com.millionaire.compound.hibernate.utils.StockPriceCandidateUtil;
 import com.millionaire.compound.hibernate.utils.StockPriceUtil;
 import com.millionaire.compound.stock.service.IStockPriceService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -20,16 +25,8 @@ public class StockPriceService implements IStockPriceService {
     @Override
     public void saveStockDailyPrice(List<StockPriceModel> stockPriceModels) {
 
-
         List<StockPriceModel> reverseStockPriceModels = new ArrayList<>();
         String ticker = stockPriceModels.get(0).getTicker();
-
-
-
-//        if (stockDailyPriceRepository.getStockDailyPricesByTicker(ticker).size()>0){
-//            System.out.println(ticker + " has been found");
-//            return;
-//        }
 
         for (int i=stockPriceModels.size()-1;i>=0;i--){
             reverseStockPriceModels.add(stockPriceModels.get(i));
@@ -40,11 +37,6 @@ public class StockPriceService implements IStockPriceService {
             String date = reverseStockPriceModels.get(i).getDate();
 
             StockDailyPrice dailyPrice = StockPriceUtil.convertStockDailyPrice2Enity(reverseStockPriceModels, i);
-
-//            if(stockDailyPriceRepository.getStockDailyPricesByTickerAndDate(ticker,date).size()>0){
-//                System.out.println(ticker+" "+date+" has been found");
-//                continue;
-//            }
             System.out.println(dailyPrice);
             if(stockDailyPriceRepository.getStockDailyPricesByTickerAndDate(dailyPrice.getTicker(),dailyPrice.getDate()).size() == 0){
                 stockDailyPriceRepository.save(dailyPrice);
@@ -60,4 +52,28 @@ public class StockPriceService implements IStockPriceService {
 
 
     }
+
+    @Override
+    public List<StockDailyPriceCandidateModel>  getPotentialStocks() {
+        String date = DateUtil.getTodayDate();
+        return getPotentialStocks(date);
+
+
+
+    }
+
+    @Override
+    public List<StockDailyPriceCandidateModel> getPotentialStocks(String date) {
+        List<StockDailyPrice> stockDailyPrices = stockDailyPriceRepository.getPotentialStocks(date);
+
+
+        List<StockDailyPriceCandidateModel> stockDailyPriceCandidateModels =  StockPriceCandidateUtil.convertStockDailyCandidate2Models(stockDailyPrices);
+
+        StockDailyPriceComparator stockDailyPriceComparator = new StockDailyPriceComparator();
+
+        Collections.sort(stockDailyPriceCandidateModels, stockDailyPriceComparator.reversed());
+
+        return stockDailyPriceCandidateModels;
+    }
+
 }

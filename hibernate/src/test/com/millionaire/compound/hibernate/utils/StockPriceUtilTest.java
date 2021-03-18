@@ -1,5 +1,6 @@
 package com.millionaire.compound.hibernate.utils;
 
+import com.millionaire.compound.common.models.StockDailyPriceCandidateModel;
 import com.millionaire.compound.common.models.StockPriceModel;
 import com.millionaire.compound.hibernate.entity.basic.StockDailyPrice;
 import org.junit.Assert;
@@ -75,6 +76,36 @@ public class StockPriceUtilTest {
         Assert.assertEquals(12, StockPriceUtil.convertStockDailyPrice2Enity(stockPriceModelList, 4).getAvg5Volume());
         Assert.assertEquals(14, StockPriceUtil.convertStockDailyPrice2Enity(stockPriceModelList, 9).getAvg10Volume());
         Assert.assertEquals(19, StockPriceUtil.convertStockDailyPrice2Enity(stockPriceModelList, 19).getAvg20Volume());
+
+
+    }
+
+    @Test
+    public void testCountPassMANum(){
+        StockDailyPriceCandidateModel previousModel = null;
+        StockDailyPriceCandidateModel model = new StockDailyPriceCandidateModel();
+
+
+        previousModel = new StockDailyPriceCandidateModel();
+        previousModel.setClose(10.0);
+        model.setClose(15.0);
+        model.setMa5(11.0);
+        model.setMa10(12.0);
+        model.setMa20(16.0);
+
+        Assert.assertEquals(2, StockPriceCandidateUtil.countPassMaNum(previousModel, model));
+
+        model.setMa30(14.0);
+
+        Assert.assertEquals(3, StockPriceCandidateUtil.countPassMaNum(previousModel, model));
+
+        model.setMa60(14.5);
+
+        Assert.assertEquals(4, StockPriceCandidateUtil.countPassMaNum(previousModel, model));
+
+
+
+
 
 
     }

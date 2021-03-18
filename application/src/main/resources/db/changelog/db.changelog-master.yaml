@@ -1,3 +1,6 @@
 databaseChangeLog:
+
 - include:
-    file: db/changelog/nasdaq/db.nasdaq-1.0.yaml
+    file: db/changelog/index/db.index-1.0.yaml
+- include:
+    file: db/changelog/history/db.history-1.0.yaml

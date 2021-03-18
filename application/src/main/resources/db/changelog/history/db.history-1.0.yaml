@@ -1,0 +1,65 @@
+databaseChangeLog:
+- changeSet:
+    id: createTab-history
+    author: unicorn
+    changes:
+    - createTable:
+        tableName: miracle_history
+        columns:
+        - column:
+            name: id
+            type: int
+            autoIncrement: true
+            constraints:
+              primaryKey: true
+              nullable: false
+        - column:
+            name: ticker
+            type: varchar(255)
+            constraints:
+              nullable: false
+        - column:
+              name: buy_price
+              type: decimal
+              constraints:
+                  nullable: true
+        - column:
+              name: buy_date
+              type: date
+              constraints:
+                  nullable: true
+        - column:
+              name: sell_price
+              type: decimal
+              constraints:
+                  nullable: true
+        - column:
+            name: update_date
+            type: date
+            constraints:
+              nullable: true
+        - column:
+            name: earning
+            type: decimal
+            constraints:
+              nullable: true
+        - column:
+              name: is_closed
+              type: boolean
+              defaultValueBoolean: false
+              constraints:
+                  nullable: true
+
+- changeSet:
+    id:  createSeq-history
+    author:  unicorn
+    changes:
+    - createSequence:
+        cycle:  true
+        dataType:  int
+        incrementBy:  1
+        schemaName:  public
+        sequenceName:  miracle_history_seq
+        startValue:  1
+
+

@@ -6,6 +6,7 @@ import com.millionaire.compound.hibernate.entity.basic.StockDailyPrice;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -32,6 +33,9 @@ public class StockPriceUtil {
 
         return stockDailyPrice;
     }
+
+
+
 
     public static StockDailyPrice convertStockDailyPrice2Enity(List<StockPriceModel> stockPriceModelList, int index){
         StockDailyPrice stockDailyPrice = convertStockDailyPrice2Enity(stockPriceModelList.get(index));

@@ -1,0 +1,164 @@
+databaseChangeLog:
+- changeSet:
+    id: createTab-index
+    author: unicorn
+    changes:
+    - createTable:
+        tableName: miracle_index
+        columns:
+        - column:
+            name: id
+            type: int
+            autoIncrement: true
+            constraints:
+              primaryKey: true
+              nullable: false
+        - column:
+            name: ticker
+            type: varchar(255)
+            constraints:
+              nullable: false
+        - column:
+            name: description
+            type: varchar(255)
+            constraints:
+              nullable: false
+
+- changeSet:
+    id:  createIndex-index
+    author:  unicorn
+    changes:
+    - createIndex:
+        catalogName:  ticker
+        clustered:  true
+        columns:
+        - column:
+            descending:  true
+            name:  ticker
+        indexName:  idx_index_ticker
+        schemaName:  public
+        tableName:  miracle_index
+        unique:  true
+
+- changeSet:
+    id: createTab-index-price
+    author: unicorn
+    changes:
+    - createTable:
+        tableName: miracle_index_daily_price
+        columns:
+        - column:
+            name: id
+            type: int
+            autoIncrement: true
+            constraints:
+              primaryKey: true
+              nullable: false
+        - column:
+            name: ticker
+            type: varchar(255)
+            constraints:
+              nullable: false
+        - column:
+            name: date
+            type: date
+            constraints:
+              nullable: false
+        - column:
+            name: open
+            type: decimal
+            constraints:
+              nullable: false
+        - column:
+            name: close
+            type: decimal
+            constraints:
+              nullable: false
+        - column:
+            name: high
+            type: decimal
+            constraints:
+              nullable: false
+        - column:
+            name: low
+            type: decimal
+            constraints:
+              nullable: false
+        - column:
+            name: range
+            type: decimal
+            constraints:
+              nullable: false
+        - column:
+            name: volume
+            type: int
+            constraints:
+              nullable: false
+        - column:
+            name: avg5_volume
+            type: int
+            constraints:
+              nullable: false
+        - column:
+            name: avg10_volume
+            type: int
+            constraints:
+              nullable: false
+        - column:
+            name: avg20_volume
+            type: int
+            constraints:
+              nullable: false
+        - column:
+            name: avg30_volume
+            type: int
+            constraints:
+              nullable: false
+        - column:
+            name: avg60_volume
+            type: int
+            constraints:
+              nullable: false
+        - column:
+            name: ma5
+            type: decimal
+            constraints:
+              nullable: false
+        - column:
+            name: ma10
+            type: decimal
+            constraints:
+              nullable: false
+        - column:
+            name: ma20
+            type: decimal
+            constraints:
+              nullable: false
+        - column:
+            name: ma30
+            type: decimal
+            constraints:
+              nullable: false
+        - column:
+            name: ma60
+            type: decimal
+            constraints:
+              nullable: false
+
+- changeSet:
+    id:  createIndex-index-daily-price
+    author:  unicorn
+    changes:
+    - createIndex:
+        clustered:  true
+        columns:
+        - column:
+            descending:  true
+            name:  ticker
+        - column:
+            descending:  true
+            name:  date
+        indexName:  idx_index_daily_price
+        schemaName:  public
+        tableName:  miracle_index_daily_price
+        unique:  true

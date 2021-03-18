@@ -14,6 +14,9 @@ public interface StockDailyPriceRepository extends ExtendedRepository<StockDaily
 
     List<StockDailyPrice> getStockDailyPricesByTicker(String ticker);
 
+    @Query("select p from StockDailyPrice p where volume > avg5Volume and volume > avg10Volume and date = ?1 and range>0")
+    List<StockDailyPrice> getPotentialStocks(String date);
+
 
 
 }
