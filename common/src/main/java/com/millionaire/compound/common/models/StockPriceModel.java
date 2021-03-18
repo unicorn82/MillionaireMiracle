@@ -12,7 +12,7 @@ public class StockPriceModel {
     private double high;
     private double low;
     private double range;
-    private int volume;
+    private long volume;
 
 
     public int getId() {
@@ -79,11 +79,11 @@ public class StockPriceModel {
         this.range = range;
     }
 
-    public int getVolume() {
+    public long getVolume() {
         return volume;
     }
 
-    public void setVolume(int volume) {
+    public void setVolume(long volume) {
         this.volume = volume;
     }
 

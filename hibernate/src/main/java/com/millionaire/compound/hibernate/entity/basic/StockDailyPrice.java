@@ -24,12 +24,12 @@ public class StockDailyPrice implements java.io.Serializable {
      private BigDecimal high;
      private BigDecimal low;
      private BigDecimal range;
-     private int volume;
-     private int avg5Volume;
-     private int avg10Volume;
-     private int avg20Volume;
-     private int avg30Volume;
-     private int avg60Volume;
+     private long volume;
+     private long avg5Volume;
+     private long avg10Volume;
+     private long avg20Volume;
+     private long avg30Volume;
+     private long avg60Volume;
      private BigDecimal ma5;
      private BigDecimal ma10;
      private BigDecimal ma20;
@@ -146,61 +146,61 @@ public class StockDailyPrice implements java.io.Serializable {
 
     
     @Column(name="volume", nullable=false)
-    public int getVolume() {
+    public long getVolume() {
         return this.volume;
     }
     
-    public void setVolume(int volume) {
+    public void setVolume(long volume) {
         this.volume = volume;
     }
 
     
     @Column(name="avg5_volume", nullable=false)
-    public int getAvg5Volume() {
+    public long getAvg5Volume() {
         return this.avg5Volume;
     }
     
-    public void setAvg5Volume(int avg5Volume) {
+    public void setAvg5Volume(long avg5Volume) {
         this.avg5Volume = avg5Volume;
     }
 
     
     @Column(name="avg10_volume", nullable=false)
-    public int getAvg10Volume() {
+    public long getAvg10Volume() {
         return this.avg10Volume;
     }
     
-    public void setAvg10Volume(int avg10Volume) {
+    public void setAvg10Volume(long avg10Volume) {
         this.avg10Volume = avg10Volume;
     }
 
     
     @Column(name="avg20_volume", nullable=false)
-    public int getAvg20Volume() {
+    public long getAvg20Volume() {
         return this.avg20Volume;
     }
     
-    public void setAvg20Volume(int avg20Volume) {
+    public void setAvg20Volume(long avg20Volume) {
         this.avg20Volume = avg20Volume;
     }
 
     
     @Column(name="avg30_volume", nullable=false)
-    public int getAvg30Volume() {
+    public long getAvg30Volume() {
         return this.avg30Volume;
     }
     
-    public void setAvg30Volume(int avg30Volume) {
+    public void setAvg30Volume(long avg30Volume) {
         this.avg30Volume = avg30Volume;
     }
 
     
     @Column(name="avg60_volume", nullable=false)
-    public int getAvg60Volume() {
+    public long getAvg60Volume() {
         return this.avg60Volume;
     }
     
-    public void setAvg60Volume(int avg60Volume) {
+    public void setAvg60Volume(long avg60Volume) {
         this.avg60Volume = avg60Volume;
     }
 

@@ -249,3 +249,38 @@ databaseChangeLog:
         tableName:  stock_daily_price
         unique:  true
 
+- changeSet:
+    id:  modifyVolume-stock-price
+    author:  unicorn
+    changes:
+    -  modifyDataType:
+           columnName:  volume
+           newDataType:  bigint
+           schemaName:  public
+           tableName:  stock_daily_price
+    - modifyDataType:
+          columnName:  avg5_volume
+          newDataType:  bigint
+          schemaName:  public
+          tableName:  stock_daily_price
+    - modifyDataType:
+          columnName:  avg10_volume
+          newDataType:  bigint
+          schemaName:  public
+          tableName:  stock_daily_price
+    - modifyDataType:
+          columnName:  avg20_volume
+          newDataType:  bigint
+          schemaName:  public
+          tableName:  stock_daily_price
+    - modifyDataType:
+          columnName:  avg30_volume
+          newDataType:  bigint
+          schemaName:  public
+          tableName:  stock_daily_price
+    - modifyDataType:
+          columnName:  avg60_volume
+          newDataType:  bigint
+          schemaName:  public
+          tableName:  stock_daily_price
+

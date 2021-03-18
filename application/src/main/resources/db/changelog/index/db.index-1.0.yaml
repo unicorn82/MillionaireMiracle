@@ -162,3 +162,38 @@ databaseChangeLog:
         schemaName:  public
         tableName:  miracle_index_daily_price
         unique:  true
+
+- changeSet:
+    id:  modifyVolume-index-price
+    author:  unicorn
+    changes:
+    -  modifyDataType:
+           columnName:  volume
+           newDataType:  bigint
+           schemaName:  public
+           tableName:  miracle_index_daily_price
+    - modifyDataType:
+          columnName:  avg5_volume
+          newDataType:  bigint
+          schemaName:  public
+          tableName:  miracle_index_daily_price
+    - modifyDataType:
+          columnName:  avg10_volume
+          newDataType:  bigint
+          schemaName:  public
+          tableName:  miracle_index_daily_price
+    - modifyDataType:
+          columnName:  avg20_volume
+          newDataType:  bigint
+          schemaName:  public
+          tableName:  miracle_index_daily_price
+    - modifyDataType:
+          columnName:  avg30_volume
+          newDataType:  bigint
+          schemaName:  public
+          tableName:  miracle_index_daily_price
+    - modifyDataType:
+          columnName:  avg60_volume
+          newDataType:  bigint
+          schemaName:  public
+          tableName:  miracle_index_daily_price

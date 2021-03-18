@@ -70,7 +70,7 @@ public class StockPriceUtil {
 
     private static void invokeStockVolumeMethod(List<StockPriceModel> stockPriceModelList, int index, StockDailyPrice stockDailyPrice, int day) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         Class clazz = stockDailyPrice.getClass();
-        Method setVolumeMethod = clazz.getDeclaredMethod("setAvg"+day+"Volume", int.class);
+        Method setVolumeMethod = clazz.getDeclaredMethod("setAvg"+day+"Volume", long.class);
         setVolumeMethod.invoke(stockDailyPrice, (int)setMAAttribute(stockPriceModelList, index, day, (StockPriceModel stockPriceModel)->{
             return stockPriceModel.getVolume();
         }));

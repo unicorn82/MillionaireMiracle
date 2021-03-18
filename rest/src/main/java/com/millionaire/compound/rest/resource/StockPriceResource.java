@@ -12,7 +12,7 @@ import javax.ws.rs.core.Response;
 import java.util.List;
 
 @Service
-@Path("/stock/price/")
+@Path("/nasdaq/price/")
 public class StockPriceResource {
 
     @Autowired

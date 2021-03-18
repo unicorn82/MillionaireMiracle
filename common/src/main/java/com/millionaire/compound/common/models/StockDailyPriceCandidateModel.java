@@ -11,12 +11,12 @@ public class StockDailyPriceCandidateModel {
     private double high;
     private double low;
     private double range;
-    private int volume;
-    private int avg5Volume;
-    private int avg10Volume;
-    private int avg20Volume;
-    private int avg30Volume;
-    private int avg60Volume;
+    private long volume;
+    private long avg5Volume;
+    private long avg10Volume;
+    private long avg20Volume;
+    private long avg30Volume;
+    private long avg60Volume;
     private double ma5;
     private double ma10;
     private double ma20;
@@ -80,51 +80,51 @@ public class StockDailyPriceCandidateModel {
         this.range = range;
     }
 
-    public int getVolume() {
+    public long getVolume() {
         return volume;
     }
 
-    public void setVolume(int volume) {
+    public void setVolume(long volume) {
         this.volume = volume;
     }
 
-    public int getAvg5Volume() {
+    public long getAvg5Volume() {
         return avg5Volume;
     }
 
-    public void setAvg5Volume(int avg5Volume) {
+    public void setAvg5Volume(long avg5Volume) {
         this.avg5Volume = avg5Volume;
     }
 
-    public int getAvg10Volume() {
+    public long getAvg10Volume() {
         return avg10Volume;
     }
 
-    public void setAvg10Volume(int avg10Volume) {
+    public void setAvg10Volume(long avg10Volume) {
         this.avg10Volume = avg10Volume;
     }
 
-    public int getAvg20Volume() {
+    public long getAvg20Volume() {
         return avg20Volume;
     }
 
-    public void setAvg20Volume(int avg20Volume) {
+    public void setAvg20Volume(long avg20Volume) {
         this.avg20Volume = avg20Volume;
     }
 
-    public int getAvg30Volume() {
+    public long getAvg30Volume() {
         return avg30Volume;
     }
 
-    public void setAvg30Volume(int avg30Volume) {
+    public void setAvg30Volume(long avg30Volume) {
         this.avg30Volume = avg30Volume;
     }
 
-    public int getAvg60Volume() {
+    public long getAvg60Volume() {
         return avg60Volume;
     }
 
-    public void setAvg60Volume(int avg60Volume) {
+    public void setAvg60Volume(long avg60Volume) {
         this.avg60Volume = avg60Volume;
     }
 

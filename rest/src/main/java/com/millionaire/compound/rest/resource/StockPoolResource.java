@@ -11,7 +11,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 @Service
-@Path("/stock")
+@Path("/nasdaq")
 public class StockPoolResource {
 
     @Autowired
