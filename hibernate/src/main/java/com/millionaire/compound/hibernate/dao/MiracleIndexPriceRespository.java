@@ -8,7 +8,9 @@ import java.util.List;
 
 public interface MiracleIndexPriceRespository extends ExtendedRepository<MiracleIndexDailyPrice, Integer> {
 
-    public List<MiracleIndexDailyPrice> queryByTicker(String ticker);
+
+
+    public List<MiracleIndexDailyPrice> queryByTickerOrderByDateAsc(String ticker);
 
     public MiracleIndexDailyPrice queryFirstByTickerAndDate(String ticker, Date date);
 

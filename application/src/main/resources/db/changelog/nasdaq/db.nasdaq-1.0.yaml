@@ -24,7 +24,7 @@ databaseChangeLog:
             constraints:
               nullable: false
         - column:
-            name: company
+            name: sector
             type: varchar(255)
             constraints:
               nullable: false
@@ -34,27 +34,22 @@ databaseChangeLog:
             constraints:
               nullable: false
         - column:
-            name: avg3m_volumn
-            type: currency
-            constraints:
-              nullable: false
-        - column:
-            name: year_range
-            type: decimal
-            constraints:
-              nullable: false
-        - column:
-            name: w52_range
+            name: industry
             type: varchar(255)
             constraints:
               nullable: false
         - column:
-            name: market_cap
-            type: currency
+            name: oneyrtarget
+            type: decimal
             constraints:
               nullable: false
         - column:
-            name: cir_market_cap
+            name: forwardpe1yr
+            type: decimal
+            constraints:
+              nullable: false
+        - column:
+            name: market_cap
             type: currency
             constraints:
               nullable: false
@@ -74,7 +69,7 @@ databaseChangeLog:
             constraints:
               nullable: false
         - column:
-            name: forward_dividend
+            name: dividend
             type: decimal
             constraints:
               nullable: false
@@ -90,6 +85,11 @@ databaseChangeLog:
               nullable: false
         - column:
             name: next_report_date
+            type: varchar(255)
+            constraints:
+              nullable: false
+        - column:
+            name: url
             type: varchar(255)
             constraints:
               nullable: false

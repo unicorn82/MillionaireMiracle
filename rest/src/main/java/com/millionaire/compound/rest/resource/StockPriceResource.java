@@ -12,18 +12,18 @@ import javax.ws.rs.core.Response;
 import java.util.List;
 
 @Service
-@Path("/nasdaq/price/")
+@Path("/stock/price/")
 public class StockPriceResource {
 
     @Autowired
     IStockPriceService stockPriceService;
 
     @POST
-    @Path("/save")
+    @Path("/{ticker}/save")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response saveStockPrice(List<StockPriceModel> stockPriceModels) {
-        stockPriceService.saveStockDailyPrice(stockPriceModels);
+    public Response saveStockPrice(@PathParam("ticker") String ticker, List<StockPriceModel> stockPriceModels) {
+        stockPriceService.saveStockDailyPrice(ticker, stockPriceModels);
         return Response.ok().build();
     }
 

@@ -1,5 +1,5 @@
 package com.millionaire.compound.hibernate.entity.basic;// default package
-// Generated Jan 6, 2021, 10:10:56 PM by Hibernate Tools 4.0.0.Final
+// Generated Apr 4, 2021, 11:07:40 PM by Hibernate Tools 4.0.0.Final
 
 
 import javax.persistence.*;
@@ -11,7 +11,6 @@ import java.math.BigDecimal;
 @Entity
 @Table(name="miracle_stock"
     ,schema="public"
-    , uniqueConstraints = @UniqueConstraint(columnNames="ticker") 
 )
 public class MiracleStock implements java.io.Serializable {
 
@@ -19,45 +18,46 @@ public class MiracleStock implements java.io.Serializable {
      private int id;
      private String ticker;
      private String category;
-     private String company;
+     private String sector;
      private String companyName;
-     private BigDecimal avg3mVolumn;
-     private BigDecimal yearRange;
-     private String w52Range;
+     private String industry;
+     private BigDecimal oneYrTarget;
+     private BigDecimal forwardPe1yr;
      private BigDecimal marketCap;
-     private BigDecimal cirMarketCap;
      private BigDecimal pe;
      private BigDecimal earning;
      private BigDecimal eps;
-     private BigDecimal forwardDividend;
+     private BigDecimal dividend;
      private BigDecimal yield;
      private BigDecimal beta;
      private String nextReportDate;
+     private String url;
 
     public MiracleStock() {
     }
 
-    public MiracleStock(int id, String ticker, String category, String company, String companyName, BigDecimal avg3mVolumn, BigDecimal yearRange, String w52Range, BigDecimal marketCap, BigDecimal cirMarketCap, BigDecimal pe, BigDecimal earning, BigDecimal eps, BigDecimal forwardDividend, BigDecimal yield, BigDecimal beta, String nextReportDate) {
+    public MiracleStock(int id, String ticker, String category, String sector, String companyName, String industry, BigDecimal oneYrTarget, BigDecimal forwardPe1yr, BigDecimal marketCap, BigDecimal pe, BigDecimal earning, BigDecimal eps, BigDecimal dividend, BigDecimal yield, BigDecimal beta, String nextReportDate, String url) {
        this.id = id;
        this.ticker = ticker;
        this.category = category;
-       this.company = company;
+       this.sector = sector;
        this.companyName = companyName;
-       this.avg3mVolumn = avg3mVolumn;
-       this.yearRange = yearRange;
-       this.w52Range = w52Range;
+       this.industry = industry;
+       this.oneYrTarget = oneYrTarget;
+       this.forwardPe1yr = forwardPe1yr;
        this.marketCap = marketCap;
-       this.cirMarketCap = cirMarketCap;
        this.pe = pe;
        this.earning = earning;
        this.eps = eps;
-       this.forwardDividend = forwardDividend;
+       this.dividend = dividend;
        this.yield = yield;
        this.beta = beta;
        this.nextReportDate = nextReportDate;
+       this.url = url;
     }
    
      @Id
+
      @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id", unique=true, nullable=false)
     public int getId() {
@@ -69,7 +69,7 @@ public class MiracleStock implements java.io.Serializable {
     }
 
     
-    @Column(name="ticker", unique=true, nullable=false)
+    @Column(name="ticker", nullable=false)
     public String getTicker() {
         return this.ticker;
     }
@@ -89,13 +89,13 @@ public class MiracleStock implements java.io.Serializable {
     }
 
     
-    @Column(name="company", nullable=false)
-    public String getCompany() {
-        return this.company;
+    @Column(name="sector", nullable=false)
+    public String getSector() {
+        return this.sector;
     }
     
-    public void setCompany(String company) {
-        this.company = company;
+    public void setSector(String sector) {
+        this.sector = sector;
     }
 
     
@@ -109,37 +109,37 @@ public class MiracleStock implements java.io.Serializable {
     }
 
     
-    @Column(name="avg3m_volumn", nullable=false, precision=15, scale=4)
-    public BigDecimal getAvg3mVolumn() {
-        return this.avg3mVolumn;
+    @Column(name="industry", nullable=false)
+    public String getIndustry() {
+        return this.industry;
     }
     
-    public void setAvg3mVolumn(BigDecimal avg3mVolumn) {
-        this.avg3mVolumn = avg3mVolumn;
-    }
-
-    
-    @Column(name="year_range", nullable=false, precision=5, scale=4)
-    public BigDecimal getYearRange() {
-        return this.yearRange;
-    }
-    
-    public void setYearRange(BigDecimal yearRange) {
-        this.yearRange = yearRange;
+    public void setIndustry(String industry) {
+        this.industry = industry;
     }
 
     
-    @Column(name="w52_range", nullable=false)
-    public String getW52Range() {
-        return this.w52Range;
+    @Column(name="oneyrtarget", nullable=false, precision=131089, scale=0)
+    public BigDecimal getOneYrTarget() {
+        return this.oneYrTarget;
     }
     
-    public void setW52Range(String w52Range) {
-        this.w52Range = w52Range;
+    public void setOneYrTarget(BigDecimal oneYrTarget) {
+        this.oneYrTarget = oneYrTarget;
     }
 
     
-    @Column(name="market_cap", nullable=false, precision=15, scale=4)
+    @Column(name="forwardpe1yr", nullable=false, precision=131089, scale=0)
+    public BigDecimal getForwardPe1yr() {
+        return this.forwardPe1yr;
+    }
+    
+    public void setForwardPe1yr(BigDecimal forwardPe1yr) {
+        this.forwardPe1yr = forwardPe1yr;
+    }
+
+    
+    @Column(name="market_cap", nullable=false, precision=131089, scale=0)
     public BigDecimal getMarketCap() {
         return this.marketCap;
     }
@@ -149,17 +149,7 @@ public class MiracleStock implements java.io.Serializable {
     }
 
     
-    @Column(name="cir_market_cap", nullable=false, precision=15, scale=4)
-    public BigDecimal getCirMarketCap() {
-        return this.cirMarketCap;
-    }
-    
-    public void setCirMarketCap(BigDecimal cirMarketCap) {
-        this.cirMarketCap = cirMarketCap;
-    }
-
-    
-    @Column(name="pe", nullable=false, precision=5, scale=4)
+    @Column(name="pe", nullable=false, precision=131089, scale=0)
     public BigDecimal getPe() {
         return this.pe;
     }
@@ -169,7 +159,7 @@ public class MiracleStock implements java.io.Serializable {
     }
 
     
-    @Column(name="earning", nullable=false, precision=15, scale=4)
+    @Column(name="earning", nullable=false, precision=131089, scale=0)
     public BigDecimal getEarning() {
         return this.earning;
     }
@@ -179,7 +169,7 @@ public class MiracleStock implements java.io.Serializable {
     }
 
     
-    @Column(name="eps", nullable=false, precision=5, scale=4)
+    @Column(name="eps", nullable=false, precision=131089, scale=0)
     public BigDecimal getEps() {
         return this.eps;
     }
@@ -189,17 +179,17 @@ public class MiracleStock implements java.io.Serializable {
     }
 
     
-    @Column(name="forward_dividend", nullable=false, precision=5, scale=4)
-    public BigDecimal getForwardDividend() {
-        return this.forwardDividend;
+    @Column(name="dividend", nullable=false, precision=131089, scale=0)
+    public BigDecimal getDividend() {
+        return this.dividend;
     }
     
-    public void setForwardDividend(BigDecimal forwardDividend) {
-        this.forwardDividend = forwardDividend;
+    public void setDividend(BigDecimal dividend) {
+        this.dividend = dividend;
     }
 
     
-    @Column(name="yield", nullable=false, precision=5, scale=4)
+    @Column(name="yield", nullable=false, precision=131089, scale=0)
     public BigDecimal getYield() {
         return this.yield;
     }
@@ -209,7 +199,7 @@ public class MiracleStock implements java.io.Serializable {
     }
 
     
-    @Column(name="beta", nullable=false, precision=5, scale=4)
+    @Column(name="beta", nullable=false, precision=131089, scale=0)
     public BigDecimal getBeta() {
         return this.beta;
     }
@@ -226,6 +216,16 @@ public class MiracleStock implements java.io.Serializable {
     
     public void setNextReportDate(String nextReportDate) {
         this.nextReportDate = nextReportDate;
+    }
+
+    
+    @Column(name="url", nullable=false)
+    public String getUrl() {
+        return this.url;
+    }
+    
+    public void setUrl(String url) {
+        this.url = url;
     }
 
 

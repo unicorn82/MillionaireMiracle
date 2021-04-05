@@ -28,7 +28,6 @@ public class IndexPriceService implements IIndexPriceService {
 
         List<StockPriceModel> reversedIndexPriceModels = new ArrayList<>();
 
-
         for (int i=indexPriceModels.size()-1;i>=0;i--){
             reversedIndexPriceModels.add(indexPriceModels.get(i));
 
@@ -50,11 +49,14 @@ public class IndexPriceService implements IIndexPriceService {
                 e.printStackTrace();
             }
 
-
-
         }
 
+    }
 
+    @Override
+    public List<MiracleIndexDailyPrice> listIndexDailyPrice(String ticker) {
+
+        return miracleIndexPriceRespository.queryByTickerOrderByDateAsc(ticker);
 
     }
 }

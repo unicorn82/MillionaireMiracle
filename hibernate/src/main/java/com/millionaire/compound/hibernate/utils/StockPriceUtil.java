@@ -1,6 +1,7 @@
 package com.millionaire.compound.hibernate.utils;
 
 import com.millionaire.compound.common.models.StockPriceModel;
+import com.millionaire.compound.common.models.utils.MathUtil;
 import com.millionaire.compound.hibernate.entity.basic.StockDailyPrice;
 
 import java.lang.reflect.InvocationTargetException;
@@ -34,12 +35,21 @@ public class StockPriceUtil {
         return stockDailyPrice;
     }
 
+    private static double getStockDailyRange(List<StockPriceModel> stockPriceModelList, int index){
+        double range = 0.0;
+        if(index>0){
+            range = MathUtil.getEarning(stockPriceModelList.get(index-1).getClose(), stockPriceModelList.get(index).getClose());
+        }
+
+        return range;
+    }
+
 
 
 
     public static StockDailyPrice convertStockDailyPrice2Enity(List<StockPriceModel> stockPriceModelList, int index){
         StockDailyPrice stockDailyPrice = convertStockDailyPrice2Enity(stockPriceModelList.get(index));
-
+        stockDailyPrice.setRange(BigDecimal.valueOf(getStockDailyRange(stockPriceModelList, index)));
         for (int day: _MADAYS) {
             try {
                 invokeStockMaMethod(stockPriceModelList, index, stockDailyPrice, day);

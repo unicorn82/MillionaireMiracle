@@ -20,4 +20,8 @@ public class DateUtil {
         }
         return null;
     }
+
+    public static String formateDate2String(Date date){
+        return formatter.format(date);
+    }
 }

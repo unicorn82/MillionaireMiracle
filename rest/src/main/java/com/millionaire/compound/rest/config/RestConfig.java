@@ -18,6 +18,7 @@ public class RestConfig extends ResourceConfig {
         super.register(MiracleHistoryResource.class);
         super.register(IndexPoolResource.class);
         super.register(IndexPriceResource.class);
+        super.register(LivermoreResouce.class);
 
     }
 

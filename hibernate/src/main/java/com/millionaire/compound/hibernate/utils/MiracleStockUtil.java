@@ -11,45 +11,46 @@ public class MiracleStockUtil {
 
     public static MiracleStock convertStockModeltoEntity(StockModel stockModel){
         MiracleStock miracleStock = new MiracleStock();
-        miracleStock.setCategory(stockModel.getCategory());
-        miracleStock.setAvg3mVolumn(BigDecimal.valueOf(stockModel.getAvg3mVolumn()));
-        miracleStock.setBeta(BigDecimal.valueOf(stockModel.getBeta()));
-        miracleStock.setCirMarketCap(BigDecimal.valueOf(stockModel.getCirMarketCap()));
-        miracleStock.setCompany(stockModel.getCompany());
+        miracleStock.setTicker(stockModel.getTicker());
+        miracleStock.setEps(BigDecimal.valueOf(stockModel.getEPS()));
+        miracleStock.setDividend(BigDecimal.valueOf(stockModel.getDividend()));
         miracleStock.setCompanyName(stockModel.getCompanyName());
+        miracleStock.setBeta(BigDecimal.valueOf(stockModel.getBeta()));
+        miracleStock.setCategory(stockModel.getCategory());
         miracleStock.setEarning(BigDecimal.valueOf(stockModel.getEarning()));
-        miracleStock.setEps(BigDecimal.valueOf(stockModel.getEps()));
-        miracleStock.setForwardDividend(BigDecimal.valueOf(stockModel.getForwardDividend()));
+        miracleStock.setForwardPe1yr(BigDecimal.valueOf(stockModel.getForwardPE1Yr()));
         miracleStock.setId(stockModel.getId());
+        miracleStock.setIndustry(stockModel.getIndustry());
         miracleStock.setMarketCap(BigDecimal.valueOf(stockModel.getMarketCap()));
         miracleStock.setNextReportDate(stockModel.getNextReportDate());
-        miracleStock.setPe(BigDecimal.valueOf(stockModel.getPe()));
-        miracleStock.setW52Range(stockModel.getW52Range());
-        miracleStock.setTicker(stockModel.getTicker());
-        miracleStock.setYearRange(BigDecimal.valueOf(stockModel.getYearRange()));
+        miracleStock.setOneYrTarget(BigDecimal.valueOf(stockModel.getOneYrTarget()));
+        miracleStock.setPe(BigDecimal.valueOf(stockModel.getPE()));
+        miracleStock.setSector(stockModel.getSector());
+        miracleStock.setUrl(stockModel.getUrl());
         miracleStock.setYield(BigDecimal.valueOf(stockModel.getYield()));
+
         return miracleStock;
 
     }
 
     public static StockModel convertStockEntitytoModel(MiracleStock miracleStock){
         StockModel stockModel = new StockModel();
-        stockModel.setCategory(miracleStock.getCategory());
-        stockModel.setAvg3mVolumn(miracleStock.getAvg3mVolumn().doubleValue());
-        stockModel.setBeta(miracleStock.getBeta().doubleValue());
-        stockModel.setCirMarketCap(miracleStock.getCirMarketCap().doubleValue());
-        stockModel.setCompany(miracleStock.getCompany());
-        stockModel.setCompanyName(miracleStock.getCompanyName());
-        stockModel.setEarning(miracleStock.getEarning().doubleValue());
-        stockModel.setEps(miracleStock.getEps().doubleValue());
-        stockModel.setForwardDividend(miracleStock.getForwardDividend().doubleValue());
         stockModel.setId(miracleStock.getId());
+        stockModel.setBeta(miracleStock.getBeta().doubleValue());
+        stockModel.setCategory(miracleStock.getCategory());
+        stockModel.setCompanyName(miracleStock.getCompanyName());
+        stockModel.setDividend(miracleStock.getDividend().doubleValue());
+        stockModel.setEarning(miracleStock.getEarning().doubleValue());
+        stockModel.setEPS(miracleStock.getEps().doubleValue());
+        stockModel.setForwardPE1Yr(miracleStock.getForwardPe1yr().doubleValue());
+        stockModel.setIndustry(miracleStock.getIndustry());
         stockModel.setMarketCap(miracleStock.getMarketCap().doubleValue());
         stockModel.setNextReportDate(miracleStock.getNextReportDate());
-        stockModel.setPe(miracleStock.getPe().doubleValue());
-        stockModel.setW52Range(miracleStock.getW52Range());
+        stockModel.setOneYrTarget(miracleStock.getOneYrTarget().doubleValue());
+        stockModel.setPE(miracleStock.getPe().doubleValue());
+        stockModel.setSector(miracleStock.getSector());
         stockModel.setTicker(miracleStock.getTicker());
-        stockModel.setYearRange(miracleStock.getYearRange().doubleValue());
+        stockModel.setUrl(miracleStock.getUrl());
         stockModel.setYield(miracleStock.getYield().doubleValue());
 
         return stockModel;

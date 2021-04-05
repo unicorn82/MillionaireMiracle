@@ -1,26 +1,25 @@
 package com.millionaire.compound.common.models;
 
-import java.math.BigDecimal;
-
 public class StockModel {
+
 
     private int id;
     private String ticker;
     private String category;
-    private String company;
+    private String sector;
     private String companyName;
-    private double avg3mVolumn;
-    private double yearRange;
-    private String w52Range;
+    private String industry;
+    private double oneYrTarget;
+    private double forwardPE1Yr;
     private double marketCap;
-    private double cirMarketCap;
-    private double pe;
+    private double PE;
     private double earning;
-    private double eps;
-    private double forwardDividend;
+    private double EPS;
+    private double dividend;
     private double yield;
     private double beta;
     private String nextReportDate;
+    private String url;
 
     public int getId() {
         return id;
@@ -46,12 +45,12 @@ public class StockModel {
         this.category = category;
     }
 
-    public String getCompany() {
-        return company;
+    public String getSector() {
+        return sector;
     }
 
-    public void setCompany(String company) {
-        this.company = company;
+    public void setSector(String sector) {
+        this.sector = sector;
     }
 
     public String getCompanyName() {
@@ -62,30 +61,6 @@ public class StockModel {
         this.companyName = companyName;
     }
 
-    public double getAvg3mVolumn() {
-        return avg3mVolumn;
-    }
-
-    public void setAvg3mVolumn(double avg3mVolumn) {
-        this.avg3mVolumn = avg3mVolumn;
-    }
-
-    public double getYearRange() {
-        return yearRange;
-    }
-
-    public void setYearRange(double yearRange) {
-        this.yearRange = yearRange;
-    }
-
-    public String getW52Range() {
-        return w52Range;
-    }
-
-    public void setW52Range(String w52Range) {
-        this.w52Range = w52Range;
-    }
-
     public double getMarketCap() {
         return marketCap;
     }
@@ -94,44 +69,12 @@ public class StockModel {
         this.marketCap = marketCap;
     }
 
-    public double getCirMarketCap() {
-        return cirMarketCap;
-    }
-
-    public void setCirMarketCap(double cirMarketCap) {
-        this.cirMarketCap = cirMarketCap;
-    }
-
-    public double getPe() {
-        return pe;
-    }
-
-    public void setPe(double pe) {
-        this.pe = pe;
-    }
-
     public double getEarning() {
         return earning;
     }
 
     public void setEarning(double earning) {
         this.earning = earning;
-    }
-
-    public double getEps() {
-        return eps;
-    }
-
-    public void setEps(double eps) {
-        this.eps = eps;
-    }
-
-    public double getForwardDividend() {
-        return forwardDividend;
-    }
-
-    public void setForwardDividend(double forwardDividend) {
-        this.forwardDividend = forwardDividend;
     }
 
     public double getYield() {
@@ -158,26 +101,82 @@ public class StockModel {
         this.nextReportDate = nextReportDate;
     }
 
+    public String getIndustry() {
+        return industry;
+    }
+
+    public void setIndustry(String industry) {
+        this.industry = industry;
+    }
+
+    public double getOneYrTarget() {
+        return oneYrTarget;
+    }
+
+    public void setOneYrTarget(double oneYrTarget) {
+        this.oneYrTarget = oneYrTarget;
+    }
+
+    public double getForwardPE1Yr() {
+        return forwardPE1Yr;
+    }
+
+    public void setForwardPE1Yr(double forwardPE1Yr) {
+        this.forwardPE1Yr = forwardPE1Yr;
+    }
+
+    public double getPE() {
+        return PE;
+    }
+
+    public void setPE(double PE) {
+        this.PE = PE;
+    }
+
+    public double getEPS() {
+        return EPS;
+    }
+
+    public void setEPS(double EPS) {
+        this.EPS = EPS;
+    }
+
+    public double getDividend() {
+        return dividend;
+    }
+
+    public void setDividend(double dividend) {
+        this.dividend = dividend;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
     @Override
     public String toString() {
         return "StockModel{" +
                 "id=" + id +
                 ", ticker='" + ticker + '\'' +
                 ", category='" + category + '\'' +
-                ", company='" + company + '\'' +
+                ", sector='" + sector + '\'' +
                 ", companyName='" + companyName + '\'' +
-                ", avg3mVolumn=" + avg3mVolumn +
-                ", yearRange=" + yearRange +
-                ", w52Range='" + w52Range + '\'' +
+                ", industry='" + industry + '\'' +
+                ", oneYrTarget=" + oneYrTarget +
+                ", forwardPE1Yr=" + forwardPE1Yr +
                 ", marketCap=" + marketCap +
-                ", cirMarketCap=" + cirMarketCap +
-                ", pe=" + pe +
+                ", PE=" + PE +
                 ", earning=" + earning +
-                ", eps=" + eps +
-                ", forwardDividend=" + forwardDividend +
+                ", EPS=" + EPS +
+                ", dividend=" + dividend +
                 ", yield=" + yield +
                 ", beta=" + beta +
                 ", nextReportDate='" + nextReportDate + '\'' +
+                ", url='" + url + '\'' +
                 '}';
     }
 }

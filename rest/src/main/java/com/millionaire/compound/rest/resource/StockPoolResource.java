@@ -11,7 +11,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 @Service
-@Path("/nasdaq")
+@Path("/stock")
 public class StockPoolResource {
 
     @Autowired
@@ -23,7 +23,7 @@ public class StockPoolResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response saveStockDish(StockModel stockModel) {
-        System.out.println(stockModel.toString());
+
         stockPoolService.saveStockItem(stockModel);
 
         return Response.ok().build();

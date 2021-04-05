@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface IStockPriceService {
 
-    public void saveStockDailyPrice(List<StockPriceModel> stockPriceModels);
+    public void saveStockDailyPrice(String ticker, List<StockPriceModel> stockPriceModels);
 
     public List<StockDailyPriceCandidateModel> getPotentialStocks();
 

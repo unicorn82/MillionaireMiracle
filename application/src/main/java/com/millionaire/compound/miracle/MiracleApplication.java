@@ -51,7 +51,7 @@ public class MiracleApplication {
 //			stock1.setTicker("ticker");
 //			stock1.setSectorName("section1");
 //			stock1.setSector("sector");
-//			stock1.setCompany("company");
+//			stock1.setSector("company");
 //			stock1.setId(1);
 //			stock1.setMarketCap("markCap111");
 //			stock1.setMarketCapGroup("markcapgroup");

@@ -23,20 +23,19 @@ public class StockPriceService implements IStockPriceService {
     StockDailyPriceRepository stockDailyPriceRepository;
 
     @Override
-    public void saveStockDailyPrice(List<StockPriceModel> stockPriceModels) {
+    public void saveStockDailyPrice(String ticker, List<StockPriceModel> stockPriceModels) {
 
-        List<StockPriceModel> reverseStockPriceModels = new ArrayList<>();
-        String ticker = stockPriceModels.get(0).getTicker();
+//        List<StockPriceModel> reverseStockPriceModels = new ArrayList<>();
 
-        for (int i=stockPriceModels.size()-1;i>=0;i--){
-            reverseStockPriceModels.add(stockPriceModels.get(i));
+//        for (int i=stockPriceModels.size()-1;i>=0;i--){
+//            reverseStockPriceModels.add(stockPriceModels.get(i));
+//
+//
+//        }
+        for (int i=0;i<stockPriceModels.size();i++){
+            String date = stockPriceModels.get(i).getDate();
 
-
-        }
-        for (int i=0;i<reverseStockPriceModels.size();i++){
-            String date = reverseStockPriceModels.get(i).getDate();
-
-            StockDailyPrice dailyPrice = StockPriceUtil.convertStockDailyPrice2Enity(reverseStockPriceModels, i);
+            StockDailyPrice dailyPrice = StockPriceUtil.convertStockDailyPrice2Enity(stockPriceModels, i);
             System.out.println(dailyPrice);
             if(stockDailyPriceRepository.getStockDailyPricesByTickerAndDate(dailyPrice.getTicker(),dailyPrice.getDate()).size() == 0){
                 stockDailyPriceRepository.save(dailyPrice);
