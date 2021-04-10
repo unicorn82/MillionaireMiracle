@@ -1,12 +1,14 @@
 package com.millionaire.compound.hibernate.utils;
 
 import com.millionaire.compound.common.models.StockPriceModel;
+import com.millionaire.compound.common.models.utils.DateUtil;
 import com.millionaire.compound.common.models.utils.MathUtil;
 import com.millionaire.compound.hibernate.entity.basic.StockDailyPrice;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,10 +23,17 @@ public class StockPriceUtil {
 
     private static int[] _MADAYS = new int[]{5,10,20,30,60};
 
-    static StockDailyPrice convertStockDailyPrice2Enity(StockPriceModel stockPriceModel){
+    private static String datePattern = "M/dd/yyyy";
+
+    static StockDailyPrice convertStockDailyPrice2Enity(StockPriceModel stockPriceModel) {
         StockDailyPrice stockDailyPrice = new StockDailyPrice();
         stockDailyPrice.setTicker(stockPriceModel.getTicker());
-        stockDailyPrice.setDate(stockPriceModel.getDate());
+        try {
+            stockDailyPrice.setDate(DateUtil.formateDate(stockPriceModel.getDate(), datePattern));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
         stockDailyPrice.setOpen(BigDecimal.valueOf(stockPriceModel.getOpen()));
         stockDailyPrice.setClose(BigDecimal.valueOf(stockPriceModel.getClose()));
         stockDailyPrice.setHigh(BigDecimal.valueOf(stockPriceModel.getHigh()));

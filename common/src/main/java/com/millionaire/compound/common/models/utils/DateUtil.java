@@ -21,6 +21,14 @@ public class DateUtil {
         return null;
     }
 
+    public static Date formateDate(String dateInString, String dateFormat) throws ParseException {
+        SimpleDateFormat new_formatter = new SimpleDateFormat(dateFormat);
+        if(dateInString != null) {
+            return new_formatter.parse(dateInString);
+        }
+        return null;
+    }
+
     public static String formateDate2String(Date date){
         return formatter.format(date);
     }

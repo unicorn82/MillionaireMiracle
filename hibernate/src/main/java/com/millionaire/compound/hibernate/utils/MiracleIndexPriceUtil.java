@@ -14,7 +14,7 @@ import java.util.List;
 
 public class MiracleIndexPriceUtil {
 
-
+    private static String datePattern = "yyyy-M-dd";
 
     public static MiracleIndexDailyPrice convertStockEntity2IndexEntity(StockDailyPrice stockDailyPrice){
         MiracleIndexDailyPrice miracleIndexDailyPrice = new MiracleIndexDailyPrice();
@@ -26,11 +26,9 @@ public class MiracleIndexPriceUtil {
             miracleIndexDailyPrice.setAvg30Volume(stockDailyPrice.getAvg30Volume());
             miracleIndexDailyPrice.setAvg60Volume(stockDailyPrice.getAvg60Volume());
             miracleIndexDailyPrice.setClose(stockDailyPrice.getClose());
-            try {
-                miracleIndexDailyPrice.setDate(DateUtil.formateDate(stockDailyPrice.getDate()));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+
+            miracleIndexDailyPrice.setDate(stockDailyPrice.getDate());
+
             miracleIndexDailyPrice.setHigh(stockDailyPrice.getHigh());
 //            miracleIndexDailyPrice.setId(stockDailyPrice.getId());
             miracleIndexDailyPrice.setLow(stockDailyPrice.getLow());

@@ -37,7 +37,7 @@ public class StockPriceService implements IStockPriceService {
 
             StockDailyPrice dailyPrice = StockPriceUtil.convertStockDailyPrice2Enity(stockPriceModels, i);
             System.out.println(dailyPrice);
-            if(stockDailyPriceRepository.getStockDailyPricesByTickerAndDate(dailyPrice.getTicker(),dailyPrice.getDate()).size() == 0){
+            if(stockDailyPriceRepository.getStockDailyPriceByTickerAndDate(dailyPrice.getTicker(),dailyPrice.getDate()).size() == 0){
                 stockDailyPriceRepository.save(dailyPrice);
                 System.out.println(ticker+" "+date+" save daily price");
 

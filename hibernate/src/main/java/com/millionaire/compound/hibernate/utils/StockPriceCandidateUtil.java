@@ -2,6 +2,7 @@ package com.millionaire.compound.hibernate.utils;
 
 import com.millionaire.compound.common.models.StockDailyPriceCandidateModel;
 import com.millionaire.compound.common.models.StockPriceModel;
+import com.millionaire.compound.common.models.utils.DateUtil;
 import com.millionaire.compound.hibernate.entity.basic.StockDailyPrice;
 
 import java.lang.reflect.InvocationTargetException;
@@ -16,7 +17,7 @@ public class StockPriceCandidateUtil {
         StockDailyPriceCandidateModel stockDailyPriceCandidateModel = new StockDailyPriceCandidateModel();
         stockDailyPriceCandidateModel.setTicker(stockDailyPrice.getTicker());
         stockDailyPriceCandidateModel.setVolume(stockDailyPrice.getVolume());
-        stockDailyPriceCandidateModel.setDate(stockDailyPrice.getDate());
+        stockDailyPriceCandidateModel.setDate(DateUtil.formateDate2String(stockDailyPrice.getDate()));
         stockDailyPriceCandidateModel.setOpen(stockDailyPrice.getOpen().doubleValue());
         stockDailyPriceCandidateModel.setClose(stockDailyPrice.getClose().doubleValue());
         stockDailyPriceCandidateModel.setHigh(stockDailyPrice.getHigh().doubleValue());
