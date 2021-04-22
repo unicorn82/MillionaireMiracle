@@ -14,7 +14,7 @@ import java.util.List;
 
 public class MiracleIndexPriceUtil {
 
-    private static String datePattern = "yyyy-M-dd";
+
 
     public static MiracleIndexDailyPrice convertStockEntity2IndexEntity(StockDailyPrice stockDailyPrice){
         MiracleIndexDailyPrice miracleIndexDailyPrice = new MiracleIndexDailyPrice();

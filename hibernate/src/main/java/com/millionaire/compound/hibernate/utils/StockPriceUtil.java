@@ -23,7 +23,7 @@ public class StockPriceUtil {
 
     private static int[] _MADAYS = new int[]{5,10,20,30,60};
 
-    private static String datePattern = "M/dd/yyyy";
+    public static String datePattern = "M/dd/yyyy";
 
     static StockDailyPrice convertStockDailyPrice2Enity(StockPriceModel stockPriceModel) {
         StockDailyPrice stockDailyPrice = new StockDailyPrice();

@@ -7,6 +7,7 @@ import com.millionaire.compound.hibernate.dao.MiracleIndexPriceRespository;
 import com.millionaire.compound.hibernate.entity.basic.MiracleIndexDailyPrice;
 import com.millionaire.compound.hibernate.utils.MiracleIndexPriceUtil;
 import com.millionaire.compound.hibernate.utils.MiracleIndexUtil;
+import com.millionaire.compound.hibernate.utils.StockPriceUtil;
 import com.millionaire.compound.stock.service.IIndexPoolService;
 import com.millionaire.compound.stock.service.IIndexPriceService;
 import org.springframework.stereotype.Service;
@@ -40,7 +41,7 @@ public class IndexPriceService implements IIndexPriceService {
 //            MiracleIndexDailyPrice miracleIndexDailyPrice = MiracleIndexPriceUtil.convertStockDailyPrice2Enity(indexPriceModel);
             try {
                 MiracleIndexDailyPrice miracleIndexDailyPrice =
-                        miracleIndexPriceRespository.queryFirstByTickerAndDate(indexPriceModel.getTicker(), DateUtil.formateDate(indexPriceModel.getDate()));
+                        miracleIndexPriceRespository.queryFirstByTickerAndDate(indexPriceModel.getTicker(), DateUtil.formateDate(indexPriceModel.getDate(), StockPriceUtil.datePattern));
                 if(miracleIndexDailyPrice != null){
                     miracleIndexPriceRespository.delete(miracleIndexDailyPrice);
                 }
