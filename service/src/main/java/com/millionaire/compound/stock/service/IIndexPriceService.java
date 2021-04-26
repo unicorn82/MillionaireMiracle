@@ -10,5 +10,7 @@ public interface IIndexPriceService {
 
     public void saveIndexDailyPrice(List<StockPriceModel> indexPriceModels);
 
+    public void saveIndexDailyPrice(String ticker, List<StockPriceModel> indexPriceModels);
+
     public List<MiracleIndexDailyPrice> listIndexDailyPrice(String ticker);
 }

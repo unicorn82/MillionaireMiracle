@@ -11,11 +11,14 @@ import com.millionaire.compound.hibernate.utils.StockPriceUtil;
 import com.millionaire.compound.stock.service.IIndexPoolService;
 import com.millionaire.compound.stock.service.IIndexPriceService;
 import org.springframework.stereotype.Service;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.Resource;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+
 
 @Service
 public class IndexPriceService implements IIndexPriceService {
@@ -23,6 +26,9 @@ public class IndexPriceService implements IIndexPriceService {
     @Resource
     MiracleIndexPriceRespository miracleIndexPriceRespository;
 
+
+
+    private static final Logger logger = LoggerFactory.getLogger(IndexPriceService.class);
 
     @Override
     public void saveIndexDailyPrice(List<StockPriceModel> indexPriceModels) {
@@ -53,6 +59,20 @@ public class IndexPriceService implements IIndexPriceService {
         }
 
     }
+
+    @Override
+    public void saveIndexDailyPrice(String ticker, List<StockPriceModel> indexPriceModels) {
+        logger.info("Accept index daily price "+ticker);
+        for (StockPriceModel stockPriceModel:indexPriceModels) {
+            MiracleIndexDailyPrice enity = MiracleIndexPriceUtil.convertStockEntity2IndexEntity(StockPriceUtil.convertStockDailyPrice2Enity(stockPriceModel));
+            if(miracleIndexPriceRespository.queryFirstByTickerAndDate(ticker, enity.getDate()) == null) {
+                logger.info("Save index daily price "+ticker+" "+ DateUtil.formateDate2String(enity.getDate()));
+                miracleIndexPriceRespository.save(enity);
+            }
+        }
+
+    }
+
 
     @Override
     public List<MiracleIndexDailyPrice> listIndexDailyPrice(String ticker) {

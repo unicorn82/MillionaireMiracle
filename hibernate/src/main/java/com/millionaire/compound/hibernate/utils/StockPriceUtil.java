@@ -25,7 +25,7 @@ public class StockPriceUtil {
 
     public static String datePattern = "M/dd/yyyy";
 
-    static StockDailyPrice convertStockDailyPrice2Enity(StockPriceModel stockPriceModel) {
+    public static StockDailyPrice convertStockDailyPrice2Enity(StockPriceModel stockPriceModel) {
         StockDailyPrice stockDailyPrice = new StockDailyPrice();
         stockDailyPrice.setTicker(stockPriceModel.getTicker());
         try {
