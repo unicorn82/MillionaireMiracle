@@ -254,9 +254,29 @@ public class MiracleIndexDailyPrice  implements java.io.Serializable {
         this.ma60 = ma60;
     }
 
-
-
-
+    @Override
+    public String toString() {
+        return "MiracleIndexDailyPrice{" +
+                "ticker='" + ticker + '\'' +
+                ", date=" + date +
+                ", open=" + open +
+                ", close=" + close +
+                ", high=" + high +
+                ", low=" + low +
+                ", range=" + range +
+                ", volume=" + volume +
+                ", avg5Volume=" + avg5Volume +
+                ", avg10Volume=" + avg10Volume +
+                ", avg20Volume=" + avg20Volume +
+                ", avg30Volume=" + avg30Volume +
+                ", avg60Volume=" + avg60Volume +
+                ", ma5=" + ma5 +
+                ", ma10=" + ma10 +
+                ", ma20=" + ma20 +
+                ", ma30=" + ma30 +
+                ", ma60=" + ma60 +
+                '}';
+    }
 }
 
 

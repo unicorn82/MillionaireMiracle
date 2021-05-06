@@ -197,3 +197,68 @@ databaseChangeLog:
           newDataType:  bigint
           schemaName:  public
           tableName:  miracle_index_daily_price
+
+-changeSet:
+    id: modifyVolume-nullable-price
+    author: unicorn
+    changes:
+    - dropNotNullConstraint:
+        catalogName: avg5_volume
+        columnDataType: bigint
+        columnName: avg5_volume
+        schemaName: public
+        tableName: miracle_index_daily_price
+    - dropNotNullConstraint:
+        catalogName: avg10_volume
+        columnDataType: bigint
+        columnName: avg10_volume
+        schemaName: public
+        tableName: miracle_index_daily_price
+    - dropNotNullConstraint:
+        catalogName: avg20_volume
+        columnDataType: bigint
+        columnName: avg20_volume
+        schemaName: public
+        tableName: miracle_index_daily_price
+    - dropNotNullConstraint:
+        catalogName: avg30_volume
+        columnDataType: bigint
+        columnName: avg30_volume
+        schemaName: public
+        tableName: miracle_index_daily_price
+    - dropNotNullConstraint:
+        catalogName: avg60_volume
+        columnDataType: bigint
+        columnName: avg60_volume
+        schemaName: public
+        tableName: miracle_index_daily_price
+    - dropNotNullConstraint:
+        catalogName: ma5
+        columnDataType: decimal
+        columnName: ma5
+        schemaName: public
+        tableName: miracle_index_daily_price
+    - dropNotNullConstraint:
+        catalogName: ma10
+        columnDataType: decimal
+        columnName: ma10
+        schemaName: public
+        tableName: miracle_index_daily_price
+    - dropNotNullConstraint:
+        catalogName: ma20
+        columnDataType: decimal
+        columnName: ma20
+        schemaName: public
+        tableName: miracle_index_daily_price
+    - dropNotNullConstraint:
+        catalogName: ma30
+        columnDataType: decimal
+        columnName: ma30
+        schemaName: public
+        tableName: miracle_index_daily_price
+    - dropNotNullConstraint:
+        catalogName: ma60
+        columnDataType: decimal
+        columnName: ma60
+        schemaName: public
+        tableName: miracle_index_daily_price

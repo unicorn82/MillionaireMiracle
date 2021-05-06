@@ -179,12 +179,12 @@ databaseChangeLog:
             name: avg5_volume
             type: int
             constraints:
-              nullable: false
+              nullable: true
         - column:
             name: avg10_volume
             type: int
             constraints:
-              nullable: false
+              nullable: true
         - column:
             name: avg20_volume
             type: int
@@ -194,42 +194,42 @@ databaseChangeLog:
             name: avg30_volume
             type: int
             constraints:
-              nullable: false
+              nullable: true
         - column:
             name: avg60_volume
             type: int
             constraints:
-              nullable: false
+              nullable: true
         - column:
             name: ma5
             type: decimal
             constraints:
-              nullable: false
+              nullable: true
         - column:
             name: ma10
             type: decimal
             constraints:
-              nullable: false
+              nullable: true
         - column:
             name: ma20
             type: decimal
             constraints:
-              nullable: false
+              nullable: true
         - column:
             name: ma30
             type: decimal
             constraints:
-              nullable: false
+              nullable: true
         - column:
             name: ma60
             type: decimal
             constraints:
-              nullable: false
+              nullable: true
         - column:
             name: pe
             type: decimal
             constraints:
-              nullable: false
+              nullable: true
 
 - changeSet:
     id:  createIndex-stock-daily-price
@@ -294,4 +294,69 @@ databaseChangeLog:
         newDataType:  date
         schemaName:  public
         tableName:  stock_daily_price
+
+-changeSet:
+  id: modifyVolume-nullable-stock-price
+  author: unicorn
+  changes:
+    - dropNotNullConstraint:
+        catalogName: avg5_volume
+        columnDataType: bigint
+        columnName: avg5_volume
+        schemaName: public
+        tableName: stock_daily_price
+    - dropNotNullConstraint:
+        catalogName: avg10_volume
+        columnDataType: bigint
+        columnName: avg10_volume
+        schemaName: public
+        tableName: stock_daily_price
+    - dropNotNullConstraint:
+        catalogName: avg20_volume
+        columnDataType: bigint
+        columnName: avg20_volume
+        schemaName: public
+        tableName: stock_daily_price
+    - dropNotNullConstraint:
+        catalogName: avg30_volume
+        columnDataType: bigint
+        columnName: avg30_volume
+        schemaName: public
+        tableName: stock_daily_price
+    - dropNotNullConstraint:
+        catalogName: avg60_volume
+        columnDataType: bigint
+        columnName: avg60_volume
+        schemaName: public
+        tableName: stock_daily_price
+    - dropNotNullConstraint:
+        catalogName: ma5
+        columnDataType: decimal
+        columnName: ma5
+        schemaName: public
+        tableName: stock_daily_price
+    - dropNotNullConstraint:
+        catalogName: ma10
+        columnDataType: decimal
+        columnName: ma10
+        schemaName: public
+        tableName: stock_daily_price
+    - dropNotNullConstraint:
+        catalogName: ma20
+        columnDataType: decimal
+        columnName: ma20
+        schemaName: public
+        tableName: stock_daily_price
+    - dropNotNullConstraint:
+        catalogName: ma30
+        columnDataType: decimal
+        columnName: ma30
+        schemaName: public
+        tableName: stock_daily_price
+    - dropNotNullConstraint:
+        catalogName: ma60
+        columnDataType: decimal
+        columnName: ma60
+        schemaName: public
+        tableName: stock_daily_price
 

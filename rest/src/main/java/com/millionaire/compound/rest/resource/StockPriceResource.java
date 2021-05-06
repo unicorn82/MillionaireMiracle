@@ -27,6 +27,15 @@ public class StockPriceResource {
         return Response.ok().build();
     }
 
+    @POST
+    @Path("/{ticker}/update")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response updateStockPrice(@PathParam("ticker") String ticker) {
+        stockPriceService.updateStockDailyPrice(ticker);
+        return Response.ok().build();
+    }
+
     @GET
     @Path("/candidates")
     @Consumes(MediaType.APPLICATION_JSON)

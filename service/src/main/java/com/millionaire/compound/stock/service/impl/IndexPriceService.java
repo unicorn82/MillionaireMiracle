@@ -30,35 +30,7 @@ public class IndexPriceService implements IIndexPriceService {
 
     private static final Logger logger = LoggerFactory.getLogger(IndexPriceService.class);
 
-    @Override
-    public void saveIndexDailyPrice(List<StockPriceModel> indexPriceModels) {
 
-        List<StockPriceModel> reversedIndexPriceModels = new ArrayList<>();
-
-        for (int i=indexPriceModels.size()-1;i>=0;i--){
-            reversedIndexPriceModels.add(indexPriceModels.get(i));
-
-        }
-
-        for (int i=0; i<reversedIndexPriceModels.size(); i++) {
-//        for(IndexPriceModel indexPriceModel : reversedIndexPriceModels){
-            StockPriceModel indexPriceModel = reversedIndexPriceModels.get(i);
-
-//            MiracleIndexDailyPrice miracleIndexDailyPrice = MiracleIndexPriceUtil.convertStockDailyPrice2Enity(indexPriceModel);
-            try {
-                MiracleIndexDailyPrice miracleIndexDailyPrice =
-                        miracleIndexPriceRespository.queryFirstByTickerAndDate(indexPriceModel.getTicker(), DateUtil.formateDate(indexPriceModel.getDate(), StockPriceUtil.datePattern));
-                if(miracleIndexDailyPrice != null){
-                    miracleIndexPriceRespository.delete(miracleIndexDailyPrice);
-                }
-                miracleIndexPriceRespository.save(MiracleIndexPriceUtil.convertStockDailyPrice2Enity(reversedIndexPriceModels, i));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-
-        }
-
-    }
 
     @Override
     public void saveIndexDailyPrice(String ticker, List<StockPriceModel> indexPriceModels) {
@@ -70,6 +42,7 @@ public class IndexPriceService implements IIndexPriceService {
                 miracleIndexPriceRespository.save(enity);
             }
         }
+        updateIndexDailyPrice(ticker);
 
     }
 
@@ -78,6 +51,31 @@ public class IndexPriceService implements IIndexPriceService {
     public List<MiracleIndexDailyPrice> listIndexDailyPrice(String ticker) {
 
         return miracleIndexPriceRespository.queryByTickerOrderByDateAsc(ticker);
+
+    }
+
+    @Override
+    public void updateIndexDailyPrice(String ticker){
+        Runnable runnable = () -> {
+            List<MiracleIndexDailyPrice> indexDailyPrices = miracleIndexPriceRespository.getThisYearListByTickerOrderByDate(ticker);
+
+            for(int i=0;i<indexDailyPrices.size();i++){
+                MiracleIndexDailyPrice miracleIndexDailyPrice = indexDailyPrices.get(i);
+                logger.info("Update Thread: {} daily price {} ", ticker,DateUtil.formateDate2String(miracleIndexDailyPrice.getDate()));
+                if(miracleIndexDailyPrice.getMa5() == null){
+                    logger.info("Update Thread: {} find daily price {} should be updated", ticker, DateUtil.formateDate2String(miracleIndexDailyPrice.getDate()));
+                    MiracleIndexPriceUtil.convertIndexDailyPrice(indexDailyPrices,i);
+                    logger.info(miracleIndexDailyPrice.toString());
+                    miracleIndexPriceRespository.save(miracleIndexDailyPrice);
+                }
+
+            }
+        };
+        Thread t = new Thread(runnable);
+        t.start();
+
+
+
 
     }
 }

@@ -1,6 +1,7 @@
 package com.millionaire.compound.hibernate.utils;
 
 import com.millionaire.compound.common.models.StockPriceModel;
+import com.millionaire.compound.common.models.utils.CommonUtil;
 import com.millionaire.compound.common.models.utils.DateUtil;
 import com.millionaire.compound.common.models.utils.MathUtil;
 import com.millionaire.compound.hibernate.entity.basic.StockDailyPrice;
@@ -15,7 +16,7 @@ import java.util.List;
 
 @FunctionalInterface
 interface StockPriceAttribute{
-    double getPriceAttribute(StockPriceModel stockPriceModel);
+    double getPriceAttribute(StockDailyPrice stockPriceModel);
 
 }
 
@@ -24,6 +25,8 @@ public class StockPriceUtil {
     private static int[] _MADAYS = new int[]{5,10,20,30,60};
 
     public static String datePattern = "M/dd/yyyy";
+
+    private static long defaultValue = 0l;
 
     public static StockDailyPrice convertStockDailyPrice2Enity(StockPriceModel stockPriceModel) {
         StockDailyPrice stockDailyPrice = new StockDailyPrice();
@@ -41,6 +44,7 @@ public class StockPriceUtil {
         stockDailyPrice.setRange(BigDecimal.valueOf(stockPriceModel.getRange()));
         stockDailyPrice.setVolume(stockPriceModel.getVolume());
 
+
         return stockDailyPrice;
     }
 
@@ -54,49 +58,46 @@ public class StockPriceUtil {
     }
 
 
+    public static void updateStockDailyPrice(List<StockDailyPrice> stockDailyPrices, int index){
+        if(CommonUtil.isNotEmpty(stockDailyPrices)) {
+            StockDailyPrice stockDailyPrice = stockDailyPrices.get(index);
+            for (int day: _MADAYS) {
+                try {
+                    invokeStockMaMethod(stockDailyPrices, index, stockDailyPrice, day);
+                    invokeStockVolumeMethod(stockDailyPrices, index, stockDailyPrice, day);
+                } catch (NoSuchMethodException e) {
+                    e.printStackTrace();
+                } catch (InvocationTargetException e) {
+                    e.printStackTrace();
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
 
-
-    public static StockDailyPrice convertStockDailyPrice2Enity(List<StockPriceModel> stockPriceModelList, int index){
-        StockDailyPrice stockDailyPrice = convertStockDailyPrice2Enity(stockPriceModelList.get(index));
-        stockDailyPrice.setRange(BigDecimal.valueOf(getStockDailyRange(stockPriceModelList, index)));
-        for (int day: _MADAYS) {
-            try {
-                invokeStockMaMethod(stockPriceModelList, index, stockDailyPrice, day);
-                invokeStockVolumeMethod(stockPriceModelList, index, stockDailyPrice, day);
-            } catch (NoSuchMethodException e) {
-                e.printStackTrace();
-            } catch (InvocationTargetException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
             }
-
         }
-
-        stockDailyPrice.setPe(BigDecimal.valueOf(0));
-
-        return stockDailyPrice;
-
     }
 
-    private static void invokeStockMaMethod(List<StockPriceModel> stockPriceModelList, int index, StockDailyPrice stockDailyPrice, int day) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+
+
+
+    private static void invokeStockMaMethod(List<StockDailyPrice> stockPriceModelList, int index, StockDailyPrice stockDailyPrice, int day) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         Class clazz = stockDailyPrice.getClass();
         Method setMaMethod = clazz.getDeclaredMethod("setMa"+day, BigDecimal.class);
-        setMaMethod.invoke(stockDailyPrice, BigDecimal.valueOf(setMAAttribute(stockPriceModelList, index, day, (StockPriceModel stockPriceModel)->{
-            return Double.valueOf(stockPriceModel.getClose());
+        setMaMethod.invoke(stockDailyPrice, BigDecimal.valueOf(setMAAttribute(stockPriceModelList, index, day, (StockDailyPrice stockPriceModel)->{
+            return stockPriceModel.getClose().doubleValue();
         })));
     }
 
-    private static void invokeStockVolumeMethod(List<StockPriceModel> stockPriceModelList, int index, StockDailyPrice stockDailyPrice, int day) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+    private static void invokeStockVolumeMethod(List<StockDailyPrice> stockPriceModelList, int index, StockDailyPrice stockDailyPrice, int day) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         Class clazz = stockDailyPrice.getClass();
         Method setVolumeMethod = clazz.getDeclaredMethod("setAvg"+day+"Volume", long.class);
-        setVolumeMethod.invoke(stockDailyPrice, (int)setMAAttribute(stockPriceModelList, index, day, (StockPriceModel stockPriceModel)->{
+        setVolumeMethod.invoke(stockDailyPrice, (int)setMAAttribute(stockPriceModelList, index, day, (StockDailyPrice stockPriceModel)->{
             return stockPriceModel.getVolume();
         }));
     }
 
 
-    private static double setMAAttribute(List<StockPriceModel> stockPriceModelList, int index, int days, StockPriceAttribute priceAttribute){
+    private static double setMAAttribute(List<StockDailyPrice> stockPriceModelList, int index, int days, StockPriceAttribute priceAttribute){
         if(index < days-1){
             return priceAttribute.getPriceAttribute(stockPriceModelList.get(index));
         }

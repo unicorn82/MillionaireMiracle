@@ -16,15 +16,7 @@ public class IndexPriceResource {
     @Autowired
     IIndexPriceService indexPriceService;
 
-    @POST
-    @Path("/save")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response saveIndexPrice(List<StockPriceModel> indexPriceModels) {
-        indexPriceService.saveIndexDailyPrice(indexPriceModels);
 
-        return Response.ok().build();
-    }
 
     @POST
     @Path("/{ticker}/save")
@@ -32,6 +24,16 @@ public class IndexPriceResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response saveIndexPrice(@PathParam("ticker") String ticker, List<StockPriceModel> indexPriceModels) {
         indexPriceService.saveIndexDailyPrice(ticker, indexPriceModels);
+
+        return Response.ok().build();
+    }
+
+    @POST
+    @Path("/{ticker}/update")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response updateIndexPrice(@PathParam("ticker") String ticker) {
+        indexPriceService.updateIndexDailyPrice(ticker);
 
         return Response.ok().build();
     }

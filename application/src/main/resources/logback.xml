@@ -52,6 +52,6 @@
     <root level="debug">
         <appender-ref ref="STDOUT" />
         <appender-ref ref="service" />
-        <appender-ref ref="hibernate" />
+<!--        <appender-ref ref="hibernate" />-->
     </root>
 </configuration>

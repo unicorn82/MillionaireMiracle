@@ -9,6 +9,8 @@ public interface IStockPriceService {
 
     public void saveStockDailyPrice(String ticker, List<StockPriceModel> stockPriceModels);
 
+    public void updateStockDailyPrice(String ticker);
+
     public List<StockDailyPriceCandidateModel> getPotentialStocks();
 
     public List<StockDailyPriceCandidateModel> getPotentialStocks(String date);

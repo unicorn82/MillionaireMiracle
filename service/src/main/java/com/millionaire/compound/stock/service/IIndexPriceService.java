@@ -8,9 +8,9 @@ import java.util.List;
 
 public interface IIndexPriceService {
 
-    public void saveIndexDailyPrice(List<StockPriceModel> indexPriceModels);
-
     public void saveIndexDailyPrice(String ticker, List<StockPriceModel> indexPriceModels);
 
     public List<MiracleIndexDailyPrice> listIndexDailyPrice(String ticker);
+
+    public void updateIndexDailyPrice(String ticker);
 }

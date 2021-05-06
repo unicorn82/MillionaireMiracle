@@ -1,6 +1,7 @@
 package com.millionaire.compound.hibernate.dao;
 
 
+import com.millionaire.compound.hibernate.entity.basic.MiracleIndexDailyPrice;
 import com.millionaire.compound.hibernate.entity.basic.StockDailyPrice;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.jpa.repository.Query;
@@ -18,6 +19,9 @@ public interface StockDailyPriceRepository extends ExtendedRepository<StockDaily
 
     @Query("select p from StockDailyPrice p where volume > avg5Volume and volume > avg10Volume and date = ?1 and range>0")
     List<StockDailyPrice> getPotentialStocks(String date);
+
+    @Query("select sdp from StockDailyPrice sdp  where ticker = ?1 and date > '2021-01-01' order by date")
+    public List<StockDailyPrice> getThisYearListByTickerOrderByDate(String ticker);
 
 
 
