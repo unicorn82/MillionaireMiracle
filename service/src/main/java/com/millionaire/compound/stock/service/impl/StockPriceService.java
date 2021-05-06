@@ -3,6 +3,7 @@ package com.millionaire.compound.stock.service.impl;
 import com.millionaire.compound.common.models.StockDailyPriceCandidateModel;
 import com.millionaire.compound.common.models.comparator.StockDailyPriceComparator;
 import com.millionaire.compound.common.models.StockPriceModel;
+import com.millionaire.compound.common.models.utils.CommonUtil;
 import com.millionaire.compound.common.models.utils.DateUtil;
 import com.millionaire.compound.hibernate.dao.StockDailyPriceRepository;
 import com.millionaire.compound.hibernate.entity.basic.StockDailyPrice;
@@ -50,7 +51,7 @@ public class StockPriceService implements IStockPriceService {
             List<StockDailyPrice> dailyPrices = stockDailyPriceRepository.getThisYearListByTickerOrderByDate(ticker);
             for (int i = 0; i < dailyPrices.size(); i++) {
                 StockDailyPrice currentDailyPrice = dailyPrices.get(i);
-                if (currentDailyPrice.getMa5() == null) {
+                if (currentDailyPrice.getMa5() == null || CommonUtil.isDoubleZero(currentDailyPrice.getRange().doubleValue())) {
                     StockPriceUtil.updateStockDailyPrice(dailyPrices, i);
                     System.out.println(currentDailyPrice.getTicker() + " " + DateUtil.formateDate2String(currentDailyPrice.getDate()) + " " + currentDailyPrice.getAvg5Volume());
                     stockDailyPriceRepository.save(currentDailyPrice);

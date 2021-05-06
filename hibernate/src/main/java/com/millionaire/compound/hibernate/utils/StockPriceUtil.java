@@ -48,10 +48,10 @@ public class StockPriceUtil {
         return stockDailyPrice;
     }
 
-    private static double getStockDailyRange(List<StockPriceModel> stockPriceModelList, int index){
+    private static double getStockDailyRange(List<StockDailyPrice> stockPriceModelList, int index){
         double range = 0.0;
         if(index>0){
-            range = MathUtil.getEarning(stockPriceModelList.get(index-1).getClose(), stockPriceModelList.get(index).getClose());
+            range = MathUtil.getEarning(stockPriceModelList.get(index-1).getClose().doubleValue(), stockPriceModelList.get(index).getClose().doubleValue());
         }
 
         return range;
@@ -61,6 +61,7 @@ public class StockPriceUtil {
     public static void updateStockDailyPrice(List<StockDailyPrice> stockDailyPrices, int index){
         if(CommonUtil.isNotEmpty(stockDailyPrices)) {
             StockDailyPrice stockDailyPrice = stockDailyPrices.get(index);
+            stockDailyPrice.setRange(BigDecimal.valueOf(getStockDailyRange(stockDailyPrices, index)));
             for (int day: _MADAYS) {
                 try {
                     invokeStockMaMethod(stockDailyPrices, index, stockDailyPrice, day);
