@@ -8,13 +8,22 @@ import com.millionaire.compound.hibernate.entity.basic.MiracleIndexDailyPrice;
 import com.millionaire.compound.hibernate.entity.basic.StockDailyPrice;
 
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
+
+@FunctionalInterface
+interface IndexPriceAttribute{
+    double getPriceAttribute(MiracleIndexDailyPrice miracleIndexDailyPrice);
+
+}
+
 public class MiracleIndexPriceUtil {
 
-
+    private static int[] _MADAYS = new int[]{5,10,20,30,60};
 
     public static MiracleIndexDailyPrice convertStockEntity2IndexEntity(StockDailyPrice stockDailyPrice){
         MiracleIndexDailyPrice miracleIndexDailyPrice = new MiracleIndexDailyPrice();
@@ -46,11 +55,55 @@ public class MiracleIndexPriceUtil {
         return miracleIndexDailyPrice;
     }
 
-    public static MiracleIndexDailyPrice convertStockDailyPrice2Enity(List<StockPriceModel> indexPriceModelList, int index){
 
-        StockDailyPrice stockDailyPrice = StockPriceUtil.convertStockDailyPrice2Enity(indexPriceModelList, index);
 
-        return convertStockEntity2IndexEntity(stockDailyPrice);
+    public static void convertIndexDailyPrice(List<MiracleIndexDailyPrice> miracleIndexDailyPrices, int index){
+        for (int day: _MADAYS) {
+            try {
+                invokeIndexMaMethod(miracleIndexDailyPrices, index, day);
+                invokeIndexVolumeMethod(miracleIndexDailyPrices, index, day);
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+        return ;
+
+    }
+
+    private static void invokeIndexMaMethod(List<MiracleIndexDailyPrice> miracleIndexDailyPrices, int index,  int day) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        MiracleIndexDailyPrice miracleIndexDailyPrice = miracleIndexDailyPrices.get(index);
+        Class clazz = miracleIndexDailyPrice.getClass();
+        Method setMaMethod = clazz.getDeclaredMethod("setMa"+day, BigDecimal.class);
+        setMaMethod.invoke(miracleIndexDailyPrice, BigDecimal.valueOf(setMAAttribute(miracleIndexDailyPrices, index, day, (MiracleIndexDailyPrice indexDailyPrice)->{
+            return indexDailyPrice.getClose().doubleValue();
+        })));
+    }
+
+    private static void invokeIndexVolumeMethod(List<MiracleIndexDailyPrice> miracleIndexDailyPrices, int index, int day) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        MiracleIndexDailyPrice miracleIndexDailyPrice = miracleIndexDailyPrices.get(index);
+        Class clazz = miracleIndexDailyPrice.getClass();
+        Method setVolumeMethod = clazz.getDeclaredMethod("setAvg"+day+"Volume", long.class);
+        setVolumeMethod.invoke(miracleIndexDailyPrice, (long)setMAAttribute(miracleIndexDailyPrices, index, day, (MiracleIndexDailyPrice indexDailyPrice)->{
+            return indexDailyPrice.getVolume();
+        }));
+    }
+
+    private static double setMAAttribute(List<MiracleIndexDailyPrice> miracleIndexDailyPrices, int index, int days, IndexPriceAttribute priceAttribute){
+        if(index < days-1){
+            return priceAttribute.getPriceAttribute(miracleIndexDailyPrices.get(index));
+        }
+        double sum = 0.0;
+        for(int i=0;i<days;i++){
+            sum += priceAttribute.getPriceAttribute(miracleIndexDailyPrices.get(index-i));
+        }
+
+        return (double) Math.round((sum/(double)days) * 10000) / 10000;
     }
 
 

@@ -4,6 +4,7 @@ import com.millionaire.compound.common.models.MiracleHistoryModel;
 import com.millionaire.compound.common.models.StockDailyPriceCandidateModel;
 import com.millionaire.compound.common.models.comparator.StockDailyPriceComparator;
 import com.millionaire.compound.common.models.StockPriceModel;
+import com.millionaire.compound.common.models.utils.CommonUtil;
 import com.millionaire.compound.common.models.utils.DateUtil;
 import com.millionaire.compound.hibernate.dao.MiracleStockRepository;
 import com.millionaire.compound.hibernate.dao.StockDailyPriceRepository;
@@ -37,30 +38,40 @@ public class StockPriceService implements IStockPriceService {
     @Override
     public void saveStockDailyPrice(String ticker, List<StockPriceModel> stockPriceModels) {
 
-//        List<StockPriceModel> reverseStockPriceModels = new ArrayList<>();
-
-//        for (int i=stockPriceModels.size()-1;i>=0;i--){
-//            reverseStockPriceModels.add(stockPriceModels.get(i));
-//
-//
-//        }
         for (int i=0;i<stockPriceModels.size();i++){
             String date = stockPriceModels.get(i).getDate();
 
-            StockDailyPrice dailyPrice = StockPriceUtil.convertStockDailyPrice2Enity(stockPriceModels, i);
+            StockDailyPrice dailyPrice = StockPriceUtil.convertStockDailyPrice2Enity(stockPriceModels.get(i));
+
             System.out.println(dailyPrice);
             if(stockDailyPriceRepository.getStockDailyPriceByTickerAndDate(dailyPrice.getTicker(),dailyPrice.getDate()).size() == 0){
                 stockDailyPriceRepository.save(dailyPrice);
                 System.out.println(ticker+" "+date+" save daily price");
 
-            }else{
-                System.out.println(ticker+" "+date+" has been found");
             }
 
         }
+        updateStockDailyPrice(ticker);
 
 
 
+    }
+
+    @Override
+    public void updateStockDailyPrice(String ticker) {
+        Runnable runnable = () -> {
+            List<StockDailyPrice> dailyPrices = stockDailyPriceRepository.getThisYearListByTickerOrderByDate(ticker);
+            for (int i = 0; i < dailyPrices.size(); i++) {
+                StockDailyPrice currentDailyPrice = dailyPrices.get(i);
+                if (currentDailyPrice.getMa5() == null || CommonUtil.isDoubleZero(currentDailyPrice.getRange().doubleValue())) {
+                    StockPriceUtil.updateStockDailyPrice(dailyPrices, i);
+                    System.out.println(currentDailyPrice.getTicker() + " " + DateUtil.formateDate2String(currentDailyPrice.getDate()) + " " + currentDailyPrice.getAvg5Volume());
+                    stockDailyPriceRepository.save(currentDailyPrice);
+                }
+            }
+        };
+        Thread t = new Thread(runnable);
+        t.start();
 
     }
 
