@@ -121,115 +121,115 @@ databaseChangeLog:
         tableName:  miracle_stock
         unique:  true
 
-- changeSet:
-    id: createTab-stock-price
-    author: unicorn
-    changes:
-    - createTable:
-        tableName: stock_daily_price
-        columns:
-        - column:
-            name: id
-            type: int
-            autoIncrement: true
-            constraints:
-              primaryKey: true
-              nullable: false
-        - column:
-            name: ticker
-            type: varchar(255)
-            constraints:
-              nullable: false
-        - column:
-            name: date
-            type: varchar(255)
-            constraints:
-              nullable: false
-        - column:
-            name: open
-            type: decimal
-            constraints:
-              nullable: false
-        - column:
-            name: close
-            type: decimal
-            constraints:
-              nullable: false
-        - column:
-            name: high
-            type: decimal
-            constraints:
-              nullable: false
-        - column:
-            name: low
-            type: decimal
-            constraints:
-              nullable: false
-        - column:
-            name: range
-            type: decimal
-            constraints:
-              nullable: false
-        - column:
-            name: volume
-            type: int
-            constraints:
-              nullable: false
-        - column:
-            name: avg5_volume
-            type: int
-            constraints:
-              nullable: true
-        - column:
-            name: avg10_volume
-            type: int
-            constraints:
-              nullable: true
-        - column:
-            name: avg20_volume
-            type: int
-            constraints:
-              nullable: false
-        - column:
-            name: avg30_volume
-            type: int
-            constraints:
-              nullable: true
-        - column:
-            name: avg60_volume
-            type: int
-            constraints:
-              nullable: true
-        - column:
-            name: ma5
-            type: decimal
-            constraints:
-              nullable: true
-        - column:
-            name: ma10
-            type: decimal
-            constraints:
-              nullable: true
-        - column:
-            name: ma20
-            type: decimal
-            constraints:
-              nullable: true
-        - column:
-            name: ma30
-            type: decimal
-            constraints:
-              nullable: true
-        - column:
-            name: ma60
-            type: decimal
-            constraints:
-              nullable: true
-        - column:
-            name: pe
-            type: decimal
-            constraints:
-              nullable: true
+#- changeSet:
+#    id: createTab-stock-price
+#    author: unicorn
+#    changes:
+#    - createTable:
+#        tableName: stock_daily_price
+#        columns:
+#        - column:
+#            name: id
+#            type: int
+#            autoIncrement: true
+#            constraints:
+#              primaryKey: true
+#              nullable: false
+#        - column:
+#            name: ticker
+#            type: varchar(255)
+#            constraints:
+#              nullable: false
+#        - column:
+#            name: date
+#            type: varchar(255)
+#            constraints:
+#              nullable: false
+#        - column:
+#            name: open
+#            type: decimal
+#            constraints:
+#              nullable: false
+#        - column:
+#            name: close
+#            type: decimal
+#            constraints:
+#              nullable: false
+#        - column:
+#            name: high
+#            type: decimal
+#            constraints:
+#              nullable: false
+#        - column:
+#            name: low
+#            type: decimal
+#            constraints:
+#              nullable: false
+#        - column:
+#            name: range
+#            type: decimal
+#            constraints:
+#              nullable: false
+#        - column:
+#            name: volume
+#            type: int
+#            constraints:
+#              nullable: false
+#        - column:
+#            name: avg5_volume
+#            type: int
+#            constraints:
+#              nullable: true
+#        - column:
+#            name: avg10_volume
+#            type: int
+#            constraints:
+#              nullable: true
+#        - column:
+#            name: avg20_volume
+#            type: int
+#            constraints:
+#              nullable: false
+#        - column:
+#            name: avg30_volume
+#            type: int
+#            constraints:
+#              nullable: true
+#        - column:
+#            name: avg60_volume
+#            type: int
+#            constraints:
+#              nullable: true
+#        - column:
+#            name: ma5
+#            type: decimal
+#            constraints:
+#              nullable: true
+#        - column:
+#            name: ma10
+#            type: decimal
+#            constraints:
+#              nullable: true
+#        - column:
+#            name: ma20
+#            type: decimal
+#            constraints:
+#              nullable: true
+#        - column:
+#            name: ma30
+#            type: decimal
+#            constraints:
+#              nullable: true
+#        - column:
+#            name: ma60
+#            type: decimal
+#            constraints:
+#              nullable: true
+#        - column:
+#            name: pe
+#            type: decimal
+#            constraints:
+#              nullable: true
 
 - changeSet:
     id:  createIndex-stock-daily-price
