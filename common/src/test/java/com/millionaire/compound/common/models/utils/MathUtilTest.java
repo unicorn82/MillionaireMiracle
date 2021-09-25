@@ -14,7 +14,7 @@ public class MathUtilTest {
 
         buy_price = 11.0;
         sell_price = 10.0;
-        Assert.assertEquals(-0.09, MathUtil.getEarning(buy_price,sell_price), 0.0001);
+        Assert.assertEquals(-0.0909, MathUtil.getEarning(buy_price,sell_price), 0.0001);
 
     }
 }

@@ -51,34 +51,7 @@ public class StockPriceUtilTest {
 
     }
 
-    @Test
-    public void testStockDailyPriceMA(){
-        prepareTestData();
-        for(int i=0;i<total;i++) {
-            StockDailyPrice stockDailyPrice = StockPriceUtil.convertStockDailyPrice2Enity(stockPriceModelList, i);
-            System.out.println(stockDailyPrice.getMa20());
-        }
 
-        Assert.assertEquals(3.0, StockPriceUtil.convertStockDailyPrice2Enity(stockPriceModelList, 4).getMa5().doubleValue(), 0.0001);
-        Assert.assertEquals(5.5, StockPriceUtil.convertStockDailyPrice2Enity(stockPriceModelList, 9).getMa10().doubleValue(), 0.0001);
-        Assert.assertEquals(10.5, StockPriceUtil.convertStockDailyPrice2Enity(stockPriceModelList, 19).getMa20().doubleValue(), 0.0001);
-
-    }
-
-    @Test
-    public void testStockDailyVolumMA(){
-        prepareTestData();
-        for(int i=0;i<total;i++) {
-            StockDailyPrice stockDailyPrice = StockPriceUtil.convertStockDailyPrice2Enity(stockPriceModelList, i);
-            System.out.println(stockDailyPrice.getVolume()+" "+stockDailyPrice.getAvg5Volume());
-
-        }
-        Assert.assertEquals(12, StockPriceUtil.convertStockDailyPrice2Enity(stockPriceModelList, 4).getAvg5Volume());
-        Assert.assertEquals(14, StockPriceUtil.convertStockDailyPrice2Enity(stockPriceModelList, 9).getAvg10Volume());
-        Assert.assertEquals(19, StockPriceUtil.convertStockDailyPrice2Enity(stockPriceModelList, 19).getAvg20Volume());
-
-
-    }
 
     @Test
     public void testCountPassMANum(){
