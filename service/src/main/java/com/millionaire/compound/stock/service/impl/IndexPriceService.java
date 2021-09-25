@@ -40,13 +40,13 @@ public class IndexPriceService implements IIndexPriceService {
 
 //            MiracleIndexDailyPrice miracleIndexDailyPrice = MiracleIndexPriceUtil.convertStockDailyPrice2Enity(indexPriceModel);
             try {
-                MiracleIndexDailyPrice miracleIndexDailyPrice =
-                        miracleIndexPriceRespository.queryFirstByTickerAndDate(indexPriceModel.getTicker(), DateUtil.formateDate(indexPriceModel.getDate(), StockPriceUtil.datePattern));
-                if(miracleIndexDailyPrice != null){
-                    miracleIndexPriceRespository.delete(miracleIndexDailyPrice);
-                }
+//                MiracleIndexDailyPrice miracleIndexDailyPrice =
+//                        miracleIndexPriceRespository.queryFirstByTickerAndDate(indexPriceModel.getTicker(), DateUtil.formateDate(indexPriceModel.getDate(), StockPriceUtil.datePattern));
+//                if(miracleIndexDailyPrice != null){
+//                    miracleIndexPriceRespository.delete(miracleIndexDailyPrice);
+//                }
                 miracleIndexPriceRespository.save(MiracleIndexPriceUtil.convertStockDailyPrice2Enity(reversedIndexPriceModels, i));
-            } catch (ParseException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 

@@ -20,5 +20,8 @@ public interface StockDailyPriceRepository extends ExtendedRepository<StockDaily
     List<StockDailyPrice> getPotentialStocks(String date);
 
 
+    List<StockDailyPrice> getStockDailyPriceByTickerOrderByDateDesc(String ticker);
+
+
 
 }
