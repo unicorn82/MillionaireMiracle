@@ -49,9 +49,9 @@
 <!--        <appender-ref ref="${pinpoint_server_hibernate_json_config:-pinpoint_server_hibernate}"/>-->
 <!--    </logger>-->
 
-    <root level="debug">
+    <root level="info">
         <appender-ref ref="STDOUT" />
         <appender-ref ref="service" />
-<!--        <appender-ref ref="hibernate" />-->
+        <appender-ref ref="hibernate" />
     </root>
 </configuration>

@@ -6,7 +6,7 @@ import java.util.Date;
 
 public class DateUtil {
 
-    private static String datePattern = "yyyy-M-dd";
+    private static String datePattern = "yyyy-MM-dd";
 
     private static  SimpleDateFormat formatter = new SimpleDateFormat(datePattern);
 
