@@ -133,12 +133,14 @@ public class StockPriceService implements IStockPriceService {
     private StockDailyPrice  filterStockByFilter(String ticker, String date){
         List<StockDailyPrice> stocks = stockDailyPriceRepository.getStockDailyPriceByTickerOrderByDateDesc(ticker);
         int target = validateStockDate(stocks, date);
-        StockDailyPrice price = stocks.get(target);
-        stocks = stocks.subList(target, stocks.size());
-        if( target > 0 && validateCoverMa5Ma20(stocks)){
-            System.out.println("=====ticker======"+ticker);
+        if(target > -1) {
 
-            return stocks.get(0);
+            stocks = stocks.subList(target, stocks.size());
+            if ( validateCoverMa5Ma20(stocks)) {
+                System.out.println("=====ticker======" + ticker);
+
+                return stocks.get(0);
+            }
         }
 
         return null;
