@@ -12,6 +12,6 @@ public interface MiracleStockRepository extends ExtendedRepository<MiracleStock,
 
     MiracleStock findByTicker(String ticker);
 
-    @Query("select ticker from MiracleStock p  order by market_cap desc")
+    @Query("select p.ticker from MiracleStock p where p.marketCap > 1000000000  order by p.marketCap desc")
     List<String> listAllTickers();
 }

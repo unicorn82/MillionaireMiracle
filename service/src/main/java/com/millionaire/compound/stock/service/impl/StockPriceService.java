@@ -1,25 +1,21 @@
 package com.millionaire.compound.stock.service.impl;
 
 import com.millionaire.compound.common.models.MiracleHistoryModel;
-import com.millionaire.compound.common.models.StockDailyPriceCandidateModel;
-import com.millionaire.compound.common.models.comparator.StockDailyPriceComparator;
 import com.millionaire.compound.common.models.StockPriceModel;
+import com.millionaire.compound.common.models.StockVerficationModel;
 import com.millionaire.compound.common.models.utils.CommonUtil;
 import com.millionaire.compound.common.models.utils.DateUtil;
 import com.millionaire.compound.hibernate.dao.MiracleStockRepository;
 import com.millionaire.compound.hibernate.dao.StockDailyPriceRepository;
-import com.millionaire.compound.hibernate.entity.basic.MiracleStock;
 import com.millionaire.compound.hibernate.entity.basic.StockDailyPrice;
-import com.millionaire.compound.hibernate.utils.StockPriceCandidateUtil;
 import com.millionaire.compound.hibernate.utils.StockPriceUtil;
+import com.millionaire.compound.stock.service.IEvaluateVerificationService;
 import com.millionaire.compound.stock.service.IStockPriceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StopWatch;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -33,6 +29,9 @@ public class StockPriceService implements IStockPriceService {
 
     @Autowired
     MiracleHistoryService miracleHistoryService;
+
+    @Autowired
+    IEvaluateVerificationService evaluateVerification;
 
 
     @Override
@@ -84,6 +83,7 @@ public class StockPriceService implements IStockPriceService {
 
     }
 
+
     @Override
     public List<String> getPotentialStocks(String date) {
 
@@ -91,27 +91,44 @@ public class StockPriceService implements IStockPriceService {
         List<String> potentialTickers = new ArrayList<>();
 
         for (String ticker: tickers) {
-//            ticker = "EXC";
-            System.out.println("start to filter "+ ticker);
-            StockDailyPrice findTarget = filterStockByFilter(ticker, date);
-            if(findTarget != null){
-                potentialTickers.add(ticker);
-
-
-                MiracleHistoryModel miracleHistoryModel = new MiracleHistoryModel();
-                miracleHistoryModel.setTicker(ticker);
-                miracleHistoryModel.setBuyDate(date);
-                miracleHistoryModel.setBuyPrice(findTarget.getClose().doubleValue());
-
-                miracleHistoryService.openHistoryRecord(miracleHistoryModel);
+//            String ticker = "PXLW";
+//            System.out.println("start to filter "+ ticker);if
+//            if(!ticker.equalsIgnoreCase("STLD")){
+//                System.out.println("skip");
+//                continue;
+//            }
+            List<StockDailyPrice> stocks = stockDailyPriceRepository.getStockDailyPriceByTickerOrderByDateDesc(ticker);
+            int target = validateStockDate(stocks, date);
+            if(target >= 0 ){
+                if(this.validateTouchMa20(stocks, target)){
+                    System.out.println("==========="+ticker+"=====================");
+                    potentialTickers.add(ticker);
+                }
+//                if(this.validate520(stocks, target)){
+//                    System.out.println("==========="+ticker+"=====================");
+//                    potentialTickers.add(ticker);
+//                }
             }
 
+
+//            if(findTarget != null){
+//                potentialTickers.add(ticker);
+//
+//
+//                MiracleHistoryModel miracleHistoryModel = new MiracleHistoryModel();
+//                miracleHistoryModel.setTicker(ticker);
+//                miracleHistoryModel.setBuyDate(date);
+//                miracleHistoryModel.setBuyPrice(findTarget.getClose().doubleValue());
+//
+//                miracleHistoryService.openHistoryRecord(miracleHistoryModel);
+//            }
+
         }
 
-        for (String ticker:potentialTickers) {
-            System.out.println(ticker);
-
-        }
+//        for (String ticker:potentialTickers) {
+//            System.out.println(ticker);
+//
+//        }
 
 
 
@@ -130,23 +147,79 @@ public class StockPriceService implements IStockPriceService {
 
     }
 
-    private StockDailyPrice  filterStockByFilter(String ticker, String date){
+    private void verifyStockDailyCandidateByTicker(String ticker){
+        List<StockVerficationModel> list = new ArrayList<>();
         List<StockDailyPrice> stocks = stockDailyPriceRepository.getStockDailyPriceByTickerOrderByDateDesc(ticker);
-        int target = validateStockDate(stocks, date);
-        if(target > -1) {
+        double earning_1 = 1;
+        double earning_3 = 1;
+        double earning_5 = 1;
+        int pos_1 = 0;
+        int neg_1 = 0;
+        int pos_3 = 0;
+        int neg_3 = 0;
+        int pos_5 =0;
+        int neg_5 =0;
 
-            stocks = stocks.subList(target, stocks.size());
-            if ( validateCoverMa5Ma20(stocks)) {
-                System.out.println("=====ticker======" + ticker);
+        for (int i = 5; i < stocks.size()-5; i++) {
+            StockDailyPrice stockDailyPrice = stocks.get(i);
 
-                return stocks.get(0);
+
+            if(validateCoverMa5Ma20(stocks, i)){
+
+                StockVerficationModel stockVerficationModel = evaluateVerification.evaluate5Days(stocks,i);
+                stockVerficationModel.setTicker(ticker);
+                stockVerficationModel.setDate(DateUtil.formateDate2String(stockDailyPrice.getDate()));
+                list.add(stockVerficationModel);
+                earning_1 = earning_1*(1+stockVerficationModel.getEarning_1()/100);
+                earning_3 = earning_3*(1+stockVerficationModel.getEarning_3()/100);
+                earning_5 = earning_5*(1+stockVerficationModel.getEarning_5()/100);
+
+                if(stockVerficationModel.getEarning_1()>0){
+                    pos_1++;
+                }else {
+                    neg_1++;
+                }
+                if(stockVerficationModel.getEarning_3()>0){
+                    pos_3++;
+                }else {
+                    neg_3++;
+                }
+                if(stockVerficationModel.getEarning_5()>0){
+                    pos_5++;
+                }else {
+                    neg_5++;
+                }
+
+
+                System.out.println(stockDailyPrice.getDate() +  " earning 1 = "+stockVerficationModel.getEarning_1()+
+                        " earning 3 = "+stockVerficationModel.getEarning_3() + " earning 5 = "+stockVerficationModel.getEarning_5());
+
+
             }
         }
-
-        return null;
-
+        System.out.println("==============================="+ticker+"============================");
+        System.out.println("earning 1 "+earning_1+" earning 3 "+earning_3+" earning 5 "+earning_5);
+        System.out.println(pos_1+"/"+neg_1+"; "+pos_3+"/"+neg_3+"; "+pos_5+"/"+neg_5);
 
     }
+
+    @Override
+    public void verifyStockDailyCandidate(String ticker) {
+        if(ticker.equalsIgnoreCase("ALL")){
+            List<String> tickers = miracleStockRepository.listAllTickers();
+            for (String t:tickers) {
+                verifyStockDailyCandidateByTicker(t);
+            }
+        }else{
+            verifyStockDailyCandidateByTicker(ticker);
+        }
+
+        return ;
+
+    }
+
+
+
 
     private int validateStockDate(List<StockDailyPrice> stocks, String date){
         int maxLen = stocks.size();
@@ -161,25 +234,146 @@ public class StockPriceService implements IStockPriceService {
 
     }
 
-    private boolean validateCoverMa5Ma20(List<StockDailyPrice> stocks){
-        if(stocks.size()>3) {
-            StockDailyPrice dailyPrice = stocks.get(0);
-            StockDailyPrice predailyPrice = stocks.get(1);
-            StockDailyPrice prepredailyPrice = stocks.get(2);
-            double rate = 100*(dailyPrice.getMa5().doubleValue() - dailyPrice.getMa20().doubleValue())/dailyPrice.getMa20().doubleValue();
-            if(predailyPrice.getClose().doubleValue()<predailyPrice.getMa5().doubleValue() && predailyPrice.getClose().doubleValue()<predailyPrice.getMa20().doubleValue() && dailyPrice.getClose().doubleValue()>dailyPrice.getMa5().doubleValue() && rate >0 && rate <5 ){
-                if(predailyPrice.getMa20().doubleValue() < dailyPrice.getMa20().doubleValue() && dailyPrice.getClose().doubleValue()>dailyPrice.getMa20().doubleValue()){{
-                    if(dailyPrice.getVolume()>predailyPrice.getVolume() ) {
-                        return true;
-                    }
-                }}
-
-
-//                 }
+    private boolean validate520(List<StockDailyPrice> stocks, int target){
+        if(stocks.size()>30) {
+            StockDailyPrice dailyPrice = stocks.get(target);
+            if(dailyPrice.getVolume() < 800000){
+                return false;
             }
+            StockDailyPrice predailyPrice = stocks.get(target + 1);
+            if(predailyPrice.getMa5().doubleValue()<predailyPrice.getMa60().doubleValue() && dailyPrice.getMa5().doubleValue()>dailyPrice.getMa60().doubleValue()){
+                if(predailyPrice.getClose().doubleValue() < predailyPrice.getMa20().doubleValue() && dailyPrice.getClose().doubleValue() > dailyPrice.getMa20().doubleValue()){
+                    for(int i=1;i<10;i++){
+                        StockDailyPrice daily = stocks.get(target +i);
+                        if(daily.getMa5().doubleValue() > daily.getMa60().doubleValue()){
+                            return false;
+                        }
+                    }
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    private boolean validateTouchMa20(List<StockDailyPrice> stocks, int target){
+        if(stocks.size()>30) {
+            StockDailyPrice dailyPrice = stocks.get(target);
+            System.out.println("verify "+dailyPrice.getTicker()+" "+dailyPrice.getDate());
+            if(dailyPrice.getVolume() < 800000){
+                return false;
+            }
+
+            StockDailyPrice predailyPrice = stocks.get(target + 1);
+            if(dailyPrice.getLow().doubleValue() < 1.01*dailyPrice.getMa20().doubleValue() && dailyPrice.getClose().doubleValue()>dailyPrice.getMa5().doubleValue() && dailyPrice.getMa5().doubleValue()>dailyPrice.getMa20().doubleValue()&& dailyPrice.getMa20().doubleValue() > dailyPrice.getMa60().doubleValue() ){
+                double rate = (dailyPrice.getMa5().doubleValue() - dailyPrice.getMa20().doubleValue())*100/dailyPrice.getMa20().doubleValue();
+                if(dailyPrice.getRange().doubleValue()>0 && dailyPrice.getMa5().doubleValue()>predailyPrice.getMa5().doubleValue() ){
+//                    StockDailyPrice predailyPrice = stocks.get(target + 1);
+                    return true;
+                }
+//                if(dailyPrice.getLow().doubleValue() < 1.02*dailyPrice.getMa20().doubleValue() && dailyPrice.getClose().doubleValue() > dailyPrice.getMa5().doubleValue()){
+//                    return true;
+//                }
+
+//                if(dailyPrice.getMa20().doubleValue() >predailyPrice.getMa20().doubleValue() && dailyPrice.getMa5().doubleValue() > dailyPrice.getMa20().doubleValue() && dailyPrice.getMa20().doubleValue() > dailyPrice.getMa30().doubleValue()) {
+//                    double rate1 = 100*(dailyPrice.getMa20().doubleValue() - predailyPrice.getMa20().doubleValue())/predailyPrice.getMa20().doubleValue();
+//                    double rate2 = 100*(dailyPrice.getMa5().doubleValue()-dailyPrice.getMa20().doubleValue())/dailyPrice.getMa20().doubleValue();
+//                    if(rate1 > 0.3 && rate2 < 5 && dailyPrice.getLow().doubleValue()<dailyPrice.getMa20().doubleValue() && dailyPrice.getClose().doubleValue()> dailyPrice.getMa20().doubleValue()){
+//                        return true;
+//                    }
+//
+//
+////                    for (int i = 1; i < 5; i++) {
+//////                        StockDailyPrice next = stocks.get(target+i);
+////                        if (validateMa5Ma20Crossing(stocks, target + i)) {
+////                            return true;
+////                        }
+////
+////                    }
+//                }
+
+
+
+            }
+
+        }
+        return false;
+    }
+
+    private boolean validateMa5Ma20Crossing(List<StockDailyPrice> stocks, int target){
+        if(stocks.size()>3) {
+            StockDailyPrice dailyPrice = stocks.get(target);
+            StockDailyPrice predailyPrice = stocks.get(target + 1);
+            if(predailyPrice.getMa5().doubleValue() < predailyPrice.getMa20().doubleValue() && dailyPrice.getMa5().doubleValue() > dailyPrice.getMa20().doubleValue() && dailyPrice.getMa10().doubleValue() > predailyPrice.getMa10().doubleValue()){
+                double rate = (dailyPrice.getClose().doubleValue() - dailyPrice.getMa20().doubleValue())/dailyPrice.getMa20().doubleValue();
+                if(rate >0 && rate < 0.05){
+                    return true;
+                }
+            }
+
         }
         return false;
 
+    }
+
+    private boolean validateCoverMa5Ma20(List<StockDailyPrice> stocks, int target){
+        if(stocks.size()>3) {
+            StockDailyPrice dailyPrice = stocks.get(target);
+            StockDailyPrice predailyPrice = stocks.get(target+1);
+            StockDailyPrice prepredailyPrice = stocks.get(target+2);
+
+            double rate = 100*(dailyPrice.getMa5().doubleValue() - dailyPrice.getMa20().doubleValue())/dailyPrice.getMa20().doubleValue();
+            if(predailyPrice.getClose().doubleValue()<predailyPrice.getMa5().doubleValue() && predailyPrice.getClose().doubleValue()<predailyPrice.getMa20().doubleValue()
+                    && dailyPrice.getClose().doubleValue()>dailyPrice.getMa5().doubleValue() && dailyPrice.getClose().doubleValue()>dailyPrice.getMa20().doubleValue()  ){
+                if(predailyPrice.getMa20().doubleValue() < dailyPrice.getMa20().doubleValue() && dailyPrice.getClose().doubleValue()>dailyPrice.getMa20().doubleValue()){
+                    if(dailyPrice.getVolume()>2*dailyPrice.getAvg5Volume() && dailyPrice.getRange().doubleValue()>0.05) {
+                        return true;
+                    }
+                    }
+                }
+
+
+//                 }
+
+        }
+        return false;
+
+    }
+
+
+
+//    private boolean validateCoverMa5Ma20(List<StockDailyPrice> stocks, int target){
+//        if(stocks.size()>3) {
+//            StockDailyPrice dailyPrice = stocks.get(target);
+//            StockDailyPrice predailyPrice = stocks.get(target+1);
+//            StockDailyPrice prepredailyPrice = stocks.get(target+2);
+//            double rate = 100*(dailyPrice.getMa5().doubleValue() - dailyPrice.getMa20().doubleValue())/dailyPrice.getMa20().doubleValue();
+//            if(predailyPrice.getClose().doubleValue()<predailyPrice.getMa5().doubleValue() && predailyPrice.getClose().doubleValue()<predailyPrice.getMa20().doubleValue() && dailyPrice.getClose().doubleValue()>dailyPrice.getMa5().doubleValue() && rate >0 && rate <5 ){
+//                if(predailyPrice.getMa20().doubleValue() < dailyPrice.getMa20().doubleValue() && dailyPrice.getClose().doubleValue()>dailyPrice.getMa20().doubleValue()){{
+//                    if(dailyPrice.getVolume()>predailyPrice.getVolume() ) {
+//                        return true;
+//                    }
+//                }}
+//
+//
+////                 }
+//            }
+//        }
+//        return false;
+//
+//    }
+
+    private boolean validateKline1(List<StockDailyPrice> stocks){
+        StockDailyPrice dailyPrice = stocks.get(0);
+        StockDailyPrice predailyPrice = stocks.get(1);
+//        StockDailyPrice nextdailyPrice = stocks.get(0);
+        if(dailyPrice.getOpen().doubleValue()<dailyPrice.getMa5().doubleValue() && dailyPrice.getMa5().doubleValue() < dailyPrice.getMa10().doubleValue() && dailyPrice.getMa10().doubleValue()<dailyPrice.getMa20().doubleValue() ){
+          if(predailyPrice.getRange().doubleValue()<0 && dailyPrice.getVolume() > predailyPrice.getVolume() && dailyPrice.getVolume() > dailyPrice.getAvg5Volume()){
+              return true;
+          }
+        }
+        return false;
     }
 
 }

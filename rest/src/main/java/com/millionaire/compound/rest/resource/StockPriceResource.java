@@ -54,5 +54,17 @@ public class StockPriceResource {
 
     }
 
+    @GET
+    @Path("/{ticker}/verification")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response verifyStockDailyCandidate(@PathParam("ticker") String ticker) {
+        stockPriceService.verifyStockDailyCandidate(ticker);
+        return Response.ok().build();
+
+    }
+
+
+
 
 }

@@ -15,5 +15,9 @@ public interface IStockPriceService {
 
     public List<String> getPotentialStocks(String date);
 
+    public void verifyStockDailyCandidate(String ticker);
+
+
+
 
 }
