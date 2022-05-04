@@ -93,7 +93,7 @@ public class StockPriceService implements IStockPriceService {
         for (String ticker: tickers) {
 //            String ticker = "PXLW";
 //            System.out.println("start to filter "+ ticker);if
-//            if(!ticker.equalsIgnoreCase("STLD")){
+//            if(!ticker.equalsIgnoreCase("TSLA")){
 //                System.out.println("skip");
 //                continue;
 //            }
@@ -258,7 +258,7 @@ public class StockPriceService implements IStockPriceService {
     }
 
     private boolean validateTouchMa20(List<StockDailyPrice> stocks, int target){
-        if(stocks.size()>30) {
+        if(stocks.size()>target+30) {
             StockDailyPrice dailyPrice = stocks.get(target);
             System.out.println("verify "+dailyPrice.getTicker()+" "+dailyPrice.getDate());
             if(dailyPrice.getVolume() < 800000){
@@ -266,9 +266,9 @@ public class StockPriceService implements IStockPriceService {
             }
 
             StockDailyPrice predailyPrice = stocks.get(target + 1);
-            if(dailyPrice.getLow().doubleValue() < 1.01*dailyPrice.getMa20().doubleValue() && dailyPrice.getClose().doubleValue()>dailyPrice.getMa5().doubleValue() && dailyPrice.getMa5().doubleValue()>dailyPrice.getMa20().doubleValue()&& dailyPrice.getMa20().doubleValue() > dailyPrice.getMa60().doubleValue() ){
+            if( dailyPrice.getClose().doubleValue()>dailyPrice.getMa5().doubleValue() && dailyPrice.getMa5().doubleValue()>dailyPrice.getMa20().doubleValue()&& dailyPrice.getMa20().doubleValue() > dailyPrice.getMa60().doubleValue() ){
                 double rate = (dailyPrice.getMa5().doubleValue() - dailyPrice.getMa20().doubleValue())*100/dailyPrice.getMa20().doubleValue();
-                if(dailyPrice.getRange().doubleValue()>0 && dailyPrice.getMa5().doubleValue()>predailyPrice.getMa5().doubleValue() ){
+                if(dailyPrice.getRange().doubleValue()>0 && rate < 3 && rate > 0 && predailyPrice.getMa5().doubleValue() > dailyPrice.getMa20().doubleValue() && dailyPrice.getMa5().doubleValue()>predailyPrice.getMa5().doubleValue()){
 //                    StockDailyPrice predailyPrice = stocks.get(target + 1);
                     return true;
                 }
